@@ -1,9 +1,11 @@
+import React, {useState, useEffect} from 'react';
+
 import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <h1>Happy hacking</h1>
-  );
+    <h1> Hello world</h1>
+  )
 }
 
-export default App;
+export default App
