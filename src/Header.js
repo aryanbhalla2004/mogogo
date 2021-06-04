@@ -1,32 +1,34 @@
-import {useState, useEffect} from 'react';
 import {Switch, Route, Link} from 'react-router-dom';
 
-const Header = () => {
+const Header = (props) => {
+  let headerButton = [<Link class="login-button-header" to="/home/login">LOG IN</Link>,<Link class="sign-up-button-header button-hover" to="/home/signup">SIGN UP</Link>];
+  if (props.userExist) {
+    headerButton = [<li className="user-header-main-button"><Link><i class="far fa-heart"></i></Link></li>,<li className="user-header-main-button"><Link><i class="far fa-bell"></i></Link></li>,<li className="user-header-main-button"><Link><i class="far fa-envelope"></i></Link></li>,<Link class="sign-up-button-header button-hover account-button" to="/dashboard">MY ACCOUNT&nbsp;<i class="fas fa-chevron-down"></i></Link>];
+  }
   return (
-    <div class="menu">
+    <div class="menu" style={{}}>
       <div class="content-sizing header">
         <ul class="logo-holder">
-          <Link to="/"><h1 class="logo-main"><span class="logo main-logo">M</span>Mogogo</h1></Link>
+          <Link to="/home"><h1 class="logo-main"><span class="logo main-logo">M</span>Mogogo</h1></Link>
         </ul>
         <Switch>
-          <Route exact path='/'>
+          <Route exact path={['/home','/support', '/faq']}>
             <ul class="menu-buttons">
               <ul class="menu-links">
-                <li><Link to="/">HOME</Link></li>
+                <li><Link to="/home">HOME</Link></li>
                 <li><Link to="/faq">FAQ</Link></li>
                 <li><Link to="/support">SUPPORT</Link></li>
               </ul>
               <div class="line"></div>
               <ul class="other-buttons">
-                <Link class="login-button-header" to="/login">LOG IN</Link>
-                <Link class="sign-up-button-header button-hover" to="/signup">SIGN UP</Link>
+                {headerButton}
               </ul>
             </ul>
           </Route>
-          <Route path={["/login", "/signup"]}>
+          <Route path={["/home/login", "/home/signup", "/home/forgot-password"]}>
             <ul class="menu-buttons">
               <ul class="menu-links">
-                <li><Link to="/support">SUPPORT 24/7</Link></li>
+                <li><Link to="/home/support">SUPPORT 24/7</Link></li>
               </ul>
             </ul>
           </Route>

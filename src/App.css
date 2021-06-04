@@ -63,7 +63,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .splitter {
@@ -114,6 +113,28 @@ header {
   color: #fff !important;
   border-radius: 3px;
   margin-left: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.user-header-main-button:first-child {
+  margin-left: 15px;
+}
+
+.user-header-main-button {
+  padding: 15px 15px !important;
+}
+
+.user-header-main-button > a > i {
+  font-size: 30px;
+  color: #19191b;
+  transition: 0.3s;
+}
+
+.user-header-main-button > a > i:hover {
+  color: #00b074;
+  transform: translateY(-3px)
 }
 
 .other-buttons {
@@ -402,6 +423,9 @@ header {
 
 
 /* login page */
+.signup-form {
+  margin-top: 100px !important;
+}
 
 .login-form-page {
   width: 100%;
@@ -560,4 +584,26 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* error */
+
+.error {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  padding: 5px 20px;
+  background-color: #df4335;
+  color: #fff;
+  border-radius: 3px;
+}
+
+.message {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  padding: 5px 20px;
+  background-color: #00b074;
+  color: rgb(255, 255, 255);
+  border-radius: 3px;
 }
