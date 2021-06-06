@@ -1,8 +1,9 @@
 import {useState, useEffect} from 'react';
 import {Switch, Route, Link, useHistory} from 'react-router-dom';
-import {firebase} from './util/firebase';
+import {auth, firebase} from './util/firebase';
 
 const Login = (props) => {
+  const databaseUsers = firebase.firestore().collection('users');
   const history = useHistory();
   const [error, setError] = useState("");
   const [userInput, setUserInput] = useState({
@@ -21,13 +22,37 @@ const Login = (props) => {
     e.preventDefault();
     if(userInput.email !== "" & userInput.password !== "") {
       try {
-        await props.login(userInput.email, userInput.password);
-        history.push('/home');
+        let userDetails = await props.login(userInput.email, userInput.password);
+        if(props.user.emailVerified) {
+          history.push('/home');
+        } else {
+          history.push('/home/activate');
+        }
       } catch(e) {
         setError(e.message);
       }
       
     }
+  }
+
+  const socialMediaLogin = async (provider) => {
+    let signedInUser = await props.allAuthFunction(provider);
+    //console.log(signedInUser);
+    databaseUsers.onSnapshot((querySnapShot) => {
+      const items = [];
+      querySnapShot.forEach((doc) => {
+        items.push(doc.data());
+      });
+
+      let result = items.find(user => user.userId === signedInUser.uid);
+      if(result === undefined) {
+        const user = {
+          Name: signedInUser.displayName,
+          Email: signedInUser.email
+        }
+        firebase.firestore().collection("users").doc(signedInUser.uid).set(user);
+      }
+    })
   }
 
   return (
@@ -38,9 +63,9 @@ const Login = (props) => {
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           <div class="header-social-icon-split">
             <ul class="social Media">
-              <li class="google"><i class="fab fa-google"></i></li>
+              <li class="google" onClick={(e) => socialMediaLogin(new firebase.auth.GoogleAuthProvider())}><i class="fab fa-google"></i></li>
               <li class="twitter"><i class="fab fa-twitter"></i></li>
-              <li class="facebook"><i class="fab fa-facebook-f"></i></li>
+              <li class="facebook" onClick={(e) => socialMediaLogin(new firebase.auth.FacebookAuthProvider())}><i class="fab fa-facebook-f"></i></li>
             </ul>
             <div class="line-holder">
               <div class="line-login"></div>
@@ -49,6 +74,7 @@ const Login = (props) => {
             </div>
           </div>
           {error && <div class="error">{error}</div>}
+          {props.messages && <div class="message">{props.messages}</div>}
           <div class="holder-input">
             <label>Email</label>
             <input type="Email" placeholder="Your Email" name="email" onChange={updateUserInput} value={userInput.email} required/>

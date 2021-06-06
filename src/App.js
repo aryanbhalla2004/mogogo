@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
-import {auth} from './util/firebase';
+import {auth, firebase} from './util/firebase';
 
 import './App.css';
 import Header from './Header';
@@ -8,12 +8,15 @@ import Login from './Login';
 import Signup from './Signup';
 import MainSearch from './Main-Search';
 import Forgotpassword from './ForgotPassword';
+import ConfirmForgotPassword from './ConfirmPasswordReset';
 import Dashboard from './Dashbord';
+import ActivateUser from './ActivateUser';
 
 const App = () => {
   const history = useHistory();
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading ] = useState(true);
+  const [successMessage, setSuccessMessage] = useState('');
   
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -32,13 +35,36 @@ const App = () => {
     return auth.createUserWithEmailAndPassword(email, password);
   }
 
-  const logout = (user) => {
+  const logout = () => {
     auth.signOut();
     history.push('/home');
   }
 
   const resetPassword = async (email) => {
     return auth.sendPasswordResetEmail(email);
+  }
+  
+  const confirmPasswordReset = (code, password) => {
+   return auth.confirmPasswordReset(code, password)
+  }
+
+  const allAuthFunction = (provider) => {
+    return firebase.auth().signInWithPopup(provider)
+      .then((res) => {
+        return res.user;
+      })
+      .catch((er) => {
+        return er;
+      });
+  }
+
+  const emailVerified = () => {
+    let user = firebase.auth().currentUser;
+    user.sendEmailVerification().then((res) => {
+      return res
+    }).catch((err) => {
+      return err
+    })
   }
 
   return (
@@ -49,7 +75,7 @@ const App = () => {
             <Redirect to="/home"/>
           </Route>
           <Route path='/home'>
-            <Header userExist={currentUser}></Header>
+            <Header userExist={currentUser} logout={logout}></Header>
             <header>
               <div class="header-overlay-pattern">
                 <img src="/background-header.png" />
@@ -61,13 +87,19 @@ const App = () => {
                 <MainSearch></MainSearch>
               </Route>
               <Route exact path="/home/login">
-                {currentUser ? <Redirect to="/dashboard" /> : <Login login={login}></Login>}
+                {currentUser ? <Redirect to="/dashboard" /> : <Login login={login} allAuthFunction={allAuthFunction} messages={successMessage}></Login>}
               </Route>
               <Route exact path="/home/signup">
                 {currentUser ? <Redirect to="/dashboard" /> : <Signup signup={signUp}></Signup>}
               </Route>
               <Route exact path="/home/forgot-password">
                 {currentUser ? <Redirect to="/dashboard" /> : <Forgotpassword resetPassword={resetPassword}></Forgotpassword>}
+              </Route>
+              <Route exact path="/home/confirm-forgot-password/:mode?/:oobCode?/:apiKey?">
+                {currentUser ? <Redirect to="/dashboard" /> : <ConfirmForgotPassword confirmPasswordReset={confirmPasswordReset} setSuccessMessage={setSuccessMessage}></ConfirmForgotPassword>}
+              </Route>
+              <Route exact path="/home/activate">
+                {currentUser && currentUser.emailVerified ? <Redirect to="/dashboard" /> : <ActivateUser emailVerified={emailVerified} user={currentUser}></ActivateUser>}
               </Route>
             </header>
             <Route exact path="/home">
@@ -141,7 +173,7 @@ const App = () => {
               </div>
             </Route>
           </Route>
-          <Route exact path="/dashboard">
+          <Route path="/dashboard">
             {currentUser === "True" ? <Redirect to="/home/login" /> : <Dashboard user={currentUser} logout={logout}></Dashboard>}
           </Route>
         </Switch>

@@ -27,12 +27,11 @@ const Signup = (props) => {
           try {
             let informationUser = await props.signup(userInput.email, userInput.password);
             let userid = informationUser.user.uid;
-            const addUserInDataBase = firebase.database().ref("Users");
             const user = {
-              name: userInput.name,
-              email: userInput.email
+              Name: userInput.name,
+              Email: userInput.email
             }
-            addUserInDataBase.child(userid).set(user);
+            firebase.firestore().collection("users").doc(userid).set(user);
           } catch(e) {
             setError(e.message);
           }

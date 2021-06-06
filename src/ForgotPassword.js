@@ -20,7 +20,6 @@ const Forgotpassword = (props) => {
     e.preventDefault();
     try {
       let info = await props.resetPassword(userInput.email);
-      console.log(info);
       setMessage(`Check your inbox for further instruction`);
     } catch(e) {
       setError(e.message);

@@ -607,3 +607,31 @@ header {
   color: rgb(255, 255, 255);
   border-radius: 3px;
 }
+
+.header-list-button {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  top: 75px;
+  width: 150px;
+}
+
+.header-list-button > ul {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  list-style-type: none;
+}
+
+.header-list-button > ul > li {
+  color: #19191b;
+  padding: 8px 20px;
+}
+
+.header-list-button > ul > li:hover {
+  background-color: rgb(238, 238, 238);
+}
+
+.activation-page-text {
+  padding: 20px 0;
+  text-align: center;
+}

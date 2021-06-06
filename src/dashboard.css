@@ -1,0 +1,230 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  position: relative;
+}
+
+.header-dashboard {
+  padding: 20px;
+  display: flex;
+  border-bottom: 1px solid rgb(235, 235, 235);
+  justify-content: space-between;
+  position: fixed;
+  align-items: center;
+  background-color: #fff;
+  z-index: 900;
+  width: 100%;
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sidebar {
+  width: 300px;
+  border-right: 1px solid rgb(235, 235, 235);
+  overflow: hidden;
+  padding: 20px 0;
+  margin-top: 80px;
+  position: fixed;
+  background-color: #fff;
+}
+
+.post-button-holder {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.post-button-holder > a{
+  background-color: #00b074; 
+  padding: 25px 30px;
+  color: #fff;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  padding: 30px 0;
+}
+
+.sidebar-menu > li > a {
+  color: rgb(128, 128, 128);
+  padding: 20px 0px;
+}
+
+.sidebar-menu > a {
+  cursor: pointer;
+  padding: 15px 40px;
+  transition: 0.3s;
+  font-weight: 600;
+  border-left: 4px solid transparent;
+  font-size: 18px;
+  color: rgb(194, 194, 194);
+}
+
+.name-list-sidebar {
+  color: rgb(87, 87, 87);
+  padding-left: 15px;
+}
+
+.sidebar-menu > a:hover{
+  border-left: 4px solid #00b074;
+  color: #00b074;
+}
+
+.active-side-bar{
+  border-left: 4px solid #00b074 !important;
+  color: #00b074 !important;
+}
+
+.content {
+  width: 100%;
+  margin-top: 90px;
+  margin-left: 300px;
+  height: 100vh;
+  padding: 60px 40px;
+  background-color: #f4f5f8;;
+}
+
+.information-dashboard-four-tabs {
+  width: 100%;
+}
+
+.information-dashboard-four-tabs > ul {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-between;
+}
+
+.information-dashboard-four-tabs > ul > li {
+  padding: 30px 25px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  width: 250px;
+}
+
+.dashboard-listing-box-icon {
+  border: 1px solid;
+  padding: 20px;
+  border-radius: 50%;
+  margin-right: 30px;
+}
+
+.header-rightSide-dashboard {
+  display: flex;
+  list-style-type: none;
+}
+
+.header-rightSide-dashboard > li {
+  padding: 0px 10px;
+}
+
+.checklist-holder {
+  width: 220px;
+  position: fixed;
+}
+
+.checklist-holder > ul {
+  list-style-type: none;
+  
+}
+
+.checklist-holder > ul > li {
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #1f1f1f;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.checklist-holder > ul > li:hover {
+  color: #00b074;
+  transform: scale(1.1);
+  box-shadow: 0 13px 16px rgb(0 0 0 / 8%);
+}
+
+.active-post-list-steps {
+  color: #00b074 !important;
+  transform: scale(1.1);
+  box-shadow: 0 13px 16px rgb(0 0 0 / 8%);
+}
+
+.checklist-holder > ul > li > span {
+  padding: 10px;
+  font-weight: 700;
+  font-weight: 400;
+  border-radius: 50%;
+  color: #1f1f1f;
+}
+
+.jobPosting-form {
+  display: flex;
+}
+
+.form-right-side {
+  padding-left: 30px;
+  width: 100%;
+  margin-left: 230px;
+}
+
+.form-holder-one {
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 30px 40px;
+  margin-bottom: 30px !important;
+}
+
+.personal-top-one {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.personal-top-one > label {
+  color: #1f1f1f;
+  font-weight: 500;
+  padding-bottom: 5px;
+}
+
+.personal-top-one > input {
+  padding: 15px;
+  width: 100% !important;
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+}
+
+.two-inputs-in-one {
+  width: 100%;  
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.two-inputs-in-one > div {  
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  max-width: 350px;
+  padding-right: 0 !important;
+}
+
+.two-inputs-in-one > div > input {
+  width: 100% !important;
+}
