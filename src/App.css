@@ -1,38 +1,144 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+HTML {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.content-sizing {
+  max-width: 1200px;
+  width: 98%;
+}
+
+a {
+  text-decoration: none;
+}
+
+.content-below-header {
+  display: flex;
+  height: 850px;
+  justify-content: center;
+  background-image: linear-gradient(90deg,rgba(0,176,116,.1) 0,rgba(88,88,0,.05));
+}
+
+.slider-below-data {
+  position: relative;
+  padding-top: 100px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+}
+
+.header-overlay-pattern {
+  height: 100%;
+  position: absolute;
+  opacity: 0.1;
+  top: 0;
+  right: -100px;
+}
+
+.header-overlay-picture {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.full-page-width {
+  height: 100vh !important;
+  border: 1px solid;
+}
+
+/* splier */
+
+.spliter-main-page {
+  background-color: #19191b;
+  display: flex;
+  width: 100%;
+  padding: 70px 0;
+  justify-content: center;
+}
+
+.spliter-main-page-content {
+  color: #fff;
+}
+
+.spliter-main-page-content > p {
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+.spliter-main-page-content > h2 {
+  font-size: 50px;
+  font-weight: 400;
+}
+
+
+/* spliter */
+
+
+/* messages style */
+
+.error, .success, .warning {
+  border-radius: 5px;
+  padding: 10px 20px;
+  width: 100%;
+  text-align: center;
+}
+.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+/* messages style */
+
+.height-fix {
+  height: 100%;
+}
+
+/* forgot password height fix */
+
+.forgot-password-fix {
+  margin: 150px 0 !important;
+}
+
+
+/* copyright */
+.copyright {
+  background-color: #1d292e;
+  padding: 40px 0;
+  color: #fff;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media only screen and (max-width: 517px) {
+  .spliter-main-page-content {
+    text-align: center;
   }
 }

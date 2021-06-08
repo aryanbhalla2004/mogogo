@@ -1,0 +1,269 @@
+.menu {
+  position: fixed;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 9999;
+  transition: 0.3s;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-main {
+  color: rgb(32, 32, 32);
+}
+
+.main-logo{
+  font-size: 25px;
+  margin-right: 10px;
+  padding: 0px 15px 0px 10px;
+}
+
+.logo {
+  border: 1px solid #00b074;
+  color: #FFF;
+  font-size: 30px;
+  margin-top: 20px;
+  font-weight: 700;
+  font-family: 'Pacifico', cursive;
+  border-radius: 5px;
+  background-color: #00b074;
+}
+
+.menu-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.menu-buttons > ul {
+  display: flex;
+  list-style-type: none;
+}
+
+.menu-links > li {
+  height: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.menu-links > li > a {
+  border-top: 3px solid transparent;
+  padding: 40px 15px;
+  transition: 0.3s;
+  color: rgb(66, 66, 66);
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer !important;
+  font-size: 14px;
+}
+
+.menu-links > li > a:hover {
+  border-top: 3px solid #00b074;
+}
+
+.line {
+  border: 1px solid #d4d4d4;
+  height: 20px;
+}
+
+.login-button-header{
+  padding: 0 20px;
+  color: rgb(66, 66, 66);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.login-button-header:hover{
+  color: #00b074
+}
+
+.sign-up-button-header {
+  background-color: #00b074;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 3px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.other-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.other-buttons > a{
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.responsive-nav {
+  border-radius: 5px;
+  display: none;
+  padding: 10px 13px;
+  font-size: 18px;
+  background-color: #00b074;
+  color: #ffffff;
+  cursor: pointer;
+  border: 1px solid;
+  transition: 0.3s;
+}
+
+.responsive-nav:hover {
+  border: 1px solid #00b074;
+  background-color: transparent;
+  color: #00b074;
+}
+
+.close-box-header {
+  display: none;
+}
+
+.user-header-main-button:first-child {
+  margin-left: 15px;
+}
+
+.user-header-main-button {
+  padding: 15px 15px !important;
+}
+
+.user-header-main-button > a > i {
+  font-size: 30px;
+  color: #19191b;
+  transition: 0.3s;
+}
+
+.user-header-main-button > a > i:hover {
+  color: #00b074;
+  transform: translateY(-3px)
+}
+
+.account-button {
+  background-color: #00b074;
+  padding: 15px 20px !important;
+  color: #fff !important;
+  border-radius: 3px;
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.header-list-button {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  top: 73px;
+  width: 150px;
+  z-index: 1;
+}
+
+.header-list-button > ul {
+  display: none;
+  flex-direction: column;
+  padding: 10px 0 10px 0;
+  list-style-type: none;
+}
+
+.header-list-button > ul > li {
+  color: #19191b;
+  padding: 8px 20px;
+  transition: .3s;
+}
+
+.header-list-button > ul > li > a{
+  color: #19191b;
+}
+
+.header-list-button > ul > li:hover {
+  background-color: rgb(238, 238, 238);
+}
+
+.show-account-menu {
+  display: flex !important;
+  box-shadow: 0 52px 54px rgb(65 62 101 / 30%);
+}
+
+.show-block {
+  display: none !important;
+}
+
+.logout-color {
+  color: rgb(175, 9, 9) !important;
+}
+
+@media only screen and (max-width: 880px) { 
+  .home-link, .supp-link, .faq-link {
+    display: none !important;
+  }
+
+  .menu {
+    padding: 20px 0;
+  }
+
+  .user-pages-padding-fix > li > a {
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 606px) { 
+  .other-buttons {
+    position: absolute;
+    right: 50px;
+    height: 100%;
+    left: 50px;
+    top: 100px;
+    bottom: 50px;
+    background-color: #fff;
+    box-shadow: rgb(0 0 0 / 8%) 0px 13px 16px
+  }
+
+  .header-list-button {
+    border: 1px solid !important;
+  }
+
+  .close-box-header {
+    position: absolute;
+    top: 0;
+    padding: 5px 10px;
+    right: 0;
+  }
+  
+  .line {
+    display: none;
+  }
+
+  .responsive-nav {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 489px) {
+  .heart{
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 418px) {
+  .bell{
+    display: none !important;
+  }
+}
+
+@media only screen and (max-width: 364px) {
+  .mail {
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 606px) {
+  .other-buttons {
+    display: flex !important;
+  }
+}
