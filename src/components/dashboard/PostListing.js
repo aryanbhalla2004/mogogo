@@ -4,6 +4,9 @@ import FormOne from './posting-form/StepOne';
 const Post = (props) => {
   const [processStage, setProcessStage] = useState({one: true});
   const [addTypeSelected, setAddTypeSelected] = useState(false);
+  const [listingType, setListingType] = useState({
+    type: ''
+  });
   const processButton = (process) => {
     setProcessStage({[process]: true});
   }
@@ -28,9 +31,78 @@ const Post = (props) => {
           </div>
         </> : 
         <div className="option-select-3">
+          <h1>Tell us about yourself</h1>
+          <p>Pick one of the option below for posting you listing on Mogogo</p>
           <ul>
-            <li></li>
+            <li className={listingType.type === 'Business' ? "option-select-3-selected" : ''} onClick={(e) => setListingType({type: 'Business'})}>
+              <i class="far fa-building"></i>
+              <h2>Business Class</h2>
+              <p>For Business Listing Only</p>
+              <p></p>
+              <ul>
+                <li>
+                  <span className="check-mark-post-listing">
+                    <i className="fas fa-check"></i>
+                  </span>
+                  Lorem Ipsum Test asds
+                </li>
+                <li>
+                  <span className="check-mark-post-listing">
+                    <i className="fas fa-check"></i>
+                  </span>
+                  Lorem Ipsum Test asds
+                </li>
+                <li>
+                  <span className="check-mark-post-listing">
+                    <i className="fas fa-check"></i>
+                  </span>
+                  Lorem Ipsum Test asds
+                </li>
+                <li>
+                  <span className="check-mark-post-listing">
+                    <i className="fas fa-check"></i>
+                  </span>
+                  Lorem Ipsum Test asds
+                </li>
+              </ul>
+            </li>
+            <li className={listingType.type === 'Individual' ? "option-select-3-selected" : ''} onClick={(e) => setListingType({type: 'Individual'})}>
+              <i className="fas fa-child"></i>
+              <h2>Individual Class</h2>
+              <p>For Individual Listing Only</p>
+              <p></p>
+              <ul>
+                <li>
+                  <span className="check-mark-post-listing">
+                    <i className="fas fa-check"></i>
+                  </span>
+                  Lorem Ipsum Test asds
+                </li>
+                <li>
+                  <span className="check-mark-post-listing">
+                    <i className="fas fa-check"></i>
+                  </span>
+                  Lorem Ipsum Test asds
+                </li>
+                <li>
+                  <span className="check-mark-post-listing">
+                    <i className="fas fa-check"></i>
+                  </span>
+                  Lorem Ipsum Test asds
+                </li>
+                <li>
+                  <span className="check-mark-post-listing">
+                    <i className="fas fa-check"></i>
+                  </span>
+                  Lorem Ipsum Test asds
+                </li>
+              </ul>
+            </li>
           </ul>
+          <button className={listingType.type.length > 0 ? "select-button-post-ad button-hover" : "select-button-post-ad disabled-selected-button"} onClick={(e) => setAddTypeSelected(true)}>Continue&nbsp;<i class="fas fa-arrow-right"></i></button>
+          <div >
+            <a></a>
+          </div>
         </div>
       }
     </div>
