@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import { Redirect, useHistory, Link, Switch, Route } from "react-router-dom";
 import {firebase} from '../../util/firebase';
 import Header from './Dashboard-Header';
-//import Home from './dashboardHome';
 import Post from './PostListing';
 import '../../styles/dashboard.css'
 import Home from "./home";
+import Setting from './setting'
 
 
 const Dashboard = (props) => {
@@ -56,7 +56,7 @@ const Dashboard = (props) => {
                 <h1>Messages</h1>
               </Route>
               <Route exact path="/dashboard/settings">
-                <h1>Settings</h1>
+                <Setting></Setting>
               </Route>
               <Route exact path="/dashboard/post-job">
                 <Post></Post>
