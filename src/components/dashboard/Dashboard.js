@@ -35,7 +35,7 @@ const Dashboard = (props) => {
         <div className="main-content">
           <div className="sidebar">
             <div className="post-button-holder">
-              <Link to="/dashboard/post-job" className="post-listing-button button-hover"><i class="fas fa-plus"></i>&nbsp;&nbsp;&nbsp;Post A New Job</Link>
+              <Link to="/dashboard/post-job" className="post-listing-button button-hover" onClick={(e) => setPageLocation({post_button: true})}><i class="fas fa-plus"></i>&nbsp;&nbsp;&nbsp;Post A New Job</Link>
             </div>
             <div className="sidebar-menu">
               <Link to="/dashboard" className={pageLocation.dashboard ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({dashboard: true})}><i class="fas fa-th-large"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Dashboard</span></Link>
