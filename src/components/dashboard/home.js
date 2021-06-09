@@ -1,7 +1,7 @@
 const Home = () => {
   return (
     <>
-      <div class="information-dashboard-four-tabs">
+      <div class="information-dashboard-four-tabs loading-In-Animation">
         <ul>
           <li>
             <div className="dashboard-listing-box-icon object1">
