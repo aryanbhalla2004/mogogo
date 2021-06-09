@@ -220,11 +220,13 @@ input{
 .checklist-holder {
   width: 220px;
   position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .checklist-holder > ul {
   list-style-type: none;
-  
 }
 
 .checklist-holder > ul > li {
@@ -301,6 +303,33 @@ input{
   justify-content: space-between;
   align-items: center;
   display: flex;
+}
+
+.go-back-select-post-type {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.go-back-select-post-type > button {
+  border: 1px solid;
+  padding: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  align-items: center;
+  background-color: #00b074;
+  color: #fff;
+  font-size: 20px;
+  transition: .3s;
+}
+
+.go-back-select-post-type > button:hover {
+  width: 100%;
+  border-radius: 0;
 }
 
 .two-inputs-in-one > div {  
@@ -655,4 +684,41 @@ input{
 .urgent-remove > ul > li:hover{
   background-color: rgb(211, 60, 60);
   color: #fff;
+}
+
+@keyframes example {
+  from {
+    transform: translateX(-100px);
+  }
+  to {transform: translateX(0px);}
+}
+
+.loading-In-Animation {
+  animation-name: coming-in;
+  animation-duration: .5s;
+  transition: .3s;
+}
+
+@keyframes coming-in {
+  from {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+.text-area-desgine {
+  border: none !important;
+}
+
+.text-area-desgine > textarea{
+  padding: 13px;
+  border-radius: 5px;
+  border: 1px solid #bebebe;
+  font-family: 'Inter', sans-serif;
+  resize: none;
+  width: 100%;
 }
