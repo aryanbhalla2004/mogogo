@@ -7,13 +7,9 @@ const Post = (props) => {
   const [addTypeSelected, setAddTypeSelected] = useState(false);
   const [listingType, setListingType] = useState({
     type: '',
-    title: 'aryan',
-    contact_person: 'bhalla',
-    email: '',
-    phone: '',
-    address: '',
-    country: '',
-    city: '',
+    title: '',
+    description: '',
+    tags: []
   });
 
   const processButton = (process) => {
@@ -60,8 +56,8 @@ const Post = (props) => {
             </div>
           </div>
           <div className="form-right-side loading-In-Animation">
-            {processStage.one ? <FormOne setProcessStage={setProcessStage} setInputField={setInputField} listingType={listingType}/> : false}
-            {processStage.two ? <FormTwo setInputField={setInputField} /> : false}
+            {processStage.one ? <FormOne setListingType={setListingType} setProcessStage={setProcessStage} setInputField={setInputField} listingType={listingType}/> : false}
+            {processStage.two ? <FormTwo setInputField={setInputField} listingType={listingType}/> : false}
             {processStage.three ? <h1>Three</h1> : false}
             {processStage.four ? <h1>Four</h1> : false}
           </div>
