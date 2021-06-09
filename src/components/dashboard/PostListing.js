@@ -1,14 +1,47 @@
 import { useEffect, useState } from "react";
 import FormOne from './posting-form/StepOne';
+import FormTwo from "./posting-form/StepTwo";
 
 const Post = (props) => {
   const [processStage, setProcessStage] = useState({one: true});
   const [addTypeSelected, setAddTypeSelected] = useState(false);
   const [listingType, setListingType] = useState({
-    type: ''
+    type: '',
+    title: 'aryan',
+    contact_person: 'bhalla',
+    email: '',
+    phone: '',
+    address: '',
+    country: '',
+    city: '',
   });
+
   const processButton = (process) => {
     setProcessStage({[process]: true});
+  }
+
+  const goBack = () => {
+    if(processStage.one) {
+      setAddTypeSelected(false)
+    } else if (processStage.two) {
+      setProcessStage({one: true});
+    } else if (processStage.three) {
+      setProcessStage({two: true});
+    } else {
+      setProcessStage({three: true});
+    }
+  }
+
+  const setPostType = (data) => {
+    setListingType(prevInput => ({
+      ...prevInput, type: data
+    }));
+  }
+
+  const setInputField = (e) => {
+    setListingType(prevInput => ({
+      ...prevInput, [e.target.name]: e.target.value
+    }));
   }
 
   return (
@@ -22,19 +55,22 @@ const Post = (props) => {
               <li className={processStage.three ? "active-post-list-steps" : ""} onClick={(e) => processButton("three")} >03<span>Tech Components</span></li>
               <li className={processStage.four ? "active-post-list-steps" : ""} onClick={(e) => processButton("four")}>04<span>Finish</span></li>
             </ul>
+            <div className="go-back-select-post-type">
+              <button className="button-hover" onClick={goBack}><i class="fas fa-arrow-left"></i></button>
+            </div>
           </div>
-          <div className="form-right-side">
-            {processStage.one ? <FormOne/> : false}
-            {processStage.two ? <h1>Two</h1> : false}
+          <div className="form-right-side loading-In-Animation">
+            {processStage.one ? <FormOne setProcessStage={setProcessStage} setInputField={setInputField} listingType={listingType}/> : false}
+            {processStage.two ? <FormTwo setInputField={setInputField} /> : false}
             {processStage.three ? <h1>Three</h1> : false}
             {processStage.four ? <h1>Four</h1> : false}
           </div>
         </> : 
-        <div className="option-select-3">
+        <div className="option-select-3 loading-In-Animation">
           <h1>Tell us about yourself</h1>
           <p>Pick one of the option below for posting you listing on Mogogo</p>
           <ul>
-            <li className={listingType.type === 'Business' ? "option-select-3-selected" : ''} onClick={(e) => setListingType({type: 'Business'})}>
+            <li className={listingType.type === 'Business' ? "option-select-3-selected" : ''} onClick={(e) => setPostType('Business')}>
               <i class="far fa-building"></i>
               <h2>Business Class</h2>
               <p>For Business Listing Only</p>
@@ -66,7 +102,7 @@ const Post = (props) => {
                 </li>
               </ul>
             </li>
-            <li className={listingType.type === 'Individual' ? "option-select-3-selected" : ''} onClick={(e) => setListingType({type: 'Individual'})}>
+            <li className={listingType.type === 'Individual' ? "option-select-3-selected" : ''} onClick={(e) => setPostType('Individual')}>
               <i className="fas fa-child"></i>
               <h2>Individual Class</h2>
               <p>For Individual Listing Only</p>
@@ -99,7 +135,7 @@ const Post = (props) => {
               </ul>
             </li>
           </ul>
-          <button className={listingType.type.length > 0 ? "select-button-post-ad button-hover" : "select-button-post-ad disabled-selected-button"} onClick={(e) => setAddTypeSelected(true)}>Continue&nbsp;<i class="fas fa-arrow-right"></i></button>
+          <button className={listingType.type.length > 0 ? "select-button-post-ad button-hover" : "select-button-post-ad disabled-selected-button"} onClick={(e) => listingType.type.length > 0 ? setAddTypeSelected(true) : false}>Continue&nbsp;<i class="fas fa-arrow-right"></i></button>
           <div >
             <a></a>
           </div>
