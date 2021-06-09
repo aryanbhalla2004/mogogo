@@ -44,25 +44,25 @@ const Post = (props) => {
                   <span className="check-mark-post-listing">
                     <i className="fas fa-check"></i>
                   </span>
-                  Lorem Ipsum Test asds
+                  Additional Location
                 </li>
                 <li>
                   <span className="check-mark-post-listing">
                     <i className="fas fa-check"></i>
                   </span>
-                  Lorem Ipsum Test asds
+                  Multiple Team Members
                 </li>
                 <li>
                   <span className="check-mark-post-listing">
                     <i className="fas fa-check"></i>
                   </span>
-                  Lorem Ipsum Test asds
+                  Support 24/7
                 </li>
                 <li>
                   <span className="check-mark-post-listing">
                     <i className="fas fa-check"></i>
                   </span>
-                  Lorem Ipsum Test asds
+                  Custom Business Page
                 </li>
               </ul>
             </li>
@@ -76,25 +76,25 @@ const Post = (props) => {
                   <span className="check-mark-post-listing">
                     <i className="fas fa-check"></i>
                   </span>
-                  Lorem Ipsum Test asds
+                  Single Location
                 </li>
                 <li>
                   <span className="check-mark-post-listing">
                     <i className="fas fa-check"></i>
                   </span>
-                  Lorem Ipsum Test asds
+                  Individual Team Member
                 </li>
                 <li>
                   <span className="check-mark-post-listing">
                     <i className="fas fa-check"></i>
                   </span>
-                  Lorem Ipsum Test asds
+                  Limited Support
                 </li>
                 <li>
                   <span className="check-mark-post-listing">
                     <i className="fas fa-check"></i>
                   </span>
-                  Lorem Ipsum Test asds
+                  Custom Single Page
                 </li>
               </ul>
             </li>

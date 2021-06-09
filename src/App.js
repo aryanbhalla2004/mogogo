@@ -135,7 +135,7 @@ const App = () => {
             </Route>
 
             <Route path="/dashboard">              
-              {currentUser ? currentUser.emailVerified ? <Dashbord logout={logout}/> : <Redirect to="/user/activate-account"/> : <Redirect to="/user/login"/>}
+              {currentUser ? currentUser.emailVerified ? <Dashbord logout={logout} currentUser={currentUser}/> : <Redirect to="/user/activate-account"/> : <Redirect to="/user/login"/>}
             </Route>
           </Route>
         </Switch> 

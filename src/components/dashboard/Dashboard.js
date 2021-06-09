@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { Children, useEffect, useState } from "react"
 import { Redirect, useHistory, Link, Switch, Route } from "react-router-dom";
 import {firebase} from '../../util/firebase';
 import Header from './Dashboard-Header';
@@ -15,17 +15,17 @@ const Dashboard = (props) => {
   const [pageLocation, setPageLocation] = useState({dashboard: true});
   const ref = firebase.firestore().collection('users');
 
-  // const getUser = () => {
-  //   let user = ref.doc(props.user.uid);
-  //   user.onSnapshot((querySnapShot) => {
-  //     setUserInfo(querySnapShot.data());
-  //     setLoading(false);
-  //   });
-  // }
+  const getUser = () => {
+    let user = ref.doc(props.currentUser.uid);
+    user.onSnapshot((querySnapShot) => {
+      setUserInfo(querySnapShot.data());
+      setLoading(false);
+    });
+  }
 
-  // useEffect(() => {
-  //   getUser();
-  // }, [])
+  useEffect(() => {
+    getUser();
+  }, [])
 
   return (
     <>
@@ -38,7 +38,7 @@ const Dashboard = (props) => {
               <Link to="/dashboard/post-job" className="post-listing-button button-hover" onClick={(e) => setPageLocation({post_button: true})}><i class="fas fa-plus"></i>&nbsp;&nbsp;&nbsp;Post A New Job</Link>
             </div>
             <div className="sidebar-menu">
-              <Link to="/dashboard" className={pageLocation.dashboard ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({dashboard: true})}><i class="fas fa-th-large"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Dashboard</span></Link>
+              <Link to="/dashboard" className={pageLocation.dashboard === true ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({dashboard: true})}><i class="fas fa-th-large"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Dashboard</span></Link>
               <Link to="/dashboard/inquires" className={pageLocation.all_posting ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({all_posting: true})}><i class="fas fa-briefcase"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Posted Jobs</span></Link>
               <Link to="/dashboard/inquires" className={pageLocation.inquires ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({inquires: true})}><i class="fas fa-envelope"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Inquires</span></Link>
               <Link to="/dashboard/settings"className={pageLocation.settings ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({settings: true})}><i class="fas fa-cog"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Settings</span></Link>
@@ -56,7 +56,7 @@ const Dashboard = (props) => {
                 <h1>Messages</h1>
               </Route>
               <Route exact path="/dashboard/settings">
-                <Setting></Setting>
+                <Setting user={userInfo}></Setting>
               </Route>
               <Route exact path="/dashboard/post-job">
                 <Post></Post>
