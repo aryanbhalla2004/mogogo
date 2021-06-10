@@ -1,21 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import mapboxgl from 'mapbox-gl';
 
 const FormTwo = (props) => {
-  const [postDetailsLength, setPostDetailLength] = useState('0');
   const [extraDetailsLength, setExtraDetailsLength] = useState('0');
+  const [pointOfInterest, setPointOfInterest] = useState([]);
+  const [showAddressList, setShowAddressList] = useState(false);
+  const mapContainer = useState(null);
+  const map = useState(null);
+  const [crd, setCrd] = useState({
+    latitude: '',
+    longitude: ''
+  });
+  const [lng, setLng] = useState('');
+  const [lat, setLat] = useState('');
+  const [zoom, setZoom] = useState(12);
+ 
 
   const wordCount = (e) => {
-    
-    if(e.target.name === 'post_detail' && e.target.value.split('').length <= 250) {
-      props.setInputField(e);
-      let words = props.listingType.post_detail.split('').length;
-      if(words === 1 && e.target.value.split(' ')[0] === "") {
-        setPostDetailLength("0");
-      } else {
-        setPostDetailLength(words);
-      }  
-    }
-
     if (e.target.name === 'extra_info' && e.target.value.split(' ').length < 251) {
       props.setInputField(e);
       let words = e.target.value.split(' ').length;
@@ -25,47 +26,119 @@ const FormTwo = (props) => {
         setExtraDetailsLength(words);
       }    
     }
-    
   }
+
+  const deboundLocation = (e) => {
+    props.setInputField(e);
+    setShowAddressList(true)
+  }
+
+  const success = (pos) => {
+    var crd = pos.coords;
+    setCrd({latitude: crd.latitude, longitude: crd.longitude});
+  }
+
+  const error = (err) => {
+    console.warn(`ERROR(${err.code}): ${err.message}`);
+  }
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(success,error, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0});
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log(setCrd.longitude, setCrd.latitude);
+      const response = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${props.listingType.address}.json?limit=4&proximity=${crd.longitude},${crd.latitude}&access_token=pk.eyJ1Ijoiam9obmF0aGFubml6aW9sIiwiYSI6ImNqcG5oZjR0cDAzMnEzeHBrZGUyYmF2aGcifQ.7vAuGZ0z6CY0kXYDkcaOBg&limit=10`);
+      const JSON = await response.json(); 
+      setPointOfInterest(JSON.features);
+    }
+    fetchData();
+  }, [props.listingType.address]);
+
+
+  const locationSelected = (pos, content) => {
+    const info = {
+      target: {
+        value: `${content}`,
+        name: 'address'
+      }
+    }
+    props.setInputField(info);
+    setLng(pos[0]);
+    setLat(pos[1]);
+    setShowAddressList(false);
+  }
+  
+  useEffect(() => {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ5YW5iaGFsbGEiLCJhIjoiY2ttbWMxYjN0MG4zNzJ2b2RzenNtNHloeCJ9.D28HxdUCUpf7YpvsQZ26AQ';
+    
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [lng, lat],
+      zoom: zoom
+    });
+    
+  }, [lng]);
 
   return (
     <>
-    <form className="form-holder-one">
-      <h1>Listing Information</h1>
-      <div className="personal-top-one">
-        <label>Select </label>
-        <div className="icon-row text-area-desgine">
-          <select>
-            <option></option>
-          </select>
+    <form className="form-holder-one loading-In-Animation">
+      <h1>Contact Information</h1>
+      <div className="flex-input-2 mt-10">
+        <div className="input-fields half-width">
+          <label>Phone Number</label>
+          <div className="icon-row">
+            <i class="fas fa-phone-alt"></i>
+            <input placeholder="+1 (204)-232-3423" type="tel" name="number" value={props.listingType.number} onChange={props.setInputField}></input>
+          </div>   
         </div>
-        <div className="word-count">
-          <p>{postDetailsLength}/500 Words</p>
-        </div>
-      </div>
-      <div className="personal-top-one">
-        <label>Information About Listing</label>
-        <div className="icon-row text-area-desgine">
-          <textarea placeholder="Website Developer & Desginer" wrap="off" wrap="hard" rows="10" name="post_detail" onChange={wordCount} value={props.listingType.post_detail}></textarea>
-        </div>
-        <div className="word-count">
-          <p>{postDetailsLength}/500 Words</p>
+        <div className="input-fields half-width">
+          <label>Email Address</label>
+          <div className="icon-row">
+            <i class="fas fa-envelope"></i>
+            <input placeholder="Example@example.com" type="email" value={props.user.Email} readOnly></input>
+          </div>   
         </div>
       </div>
+        
       <div className="personal-top-one">
-        <label>Extra Notes</label>
+        <label>Extra Notes (Optional)</label>
         <div className="icon-row text-area-desgine">
-          <textarea placeholder="Website Developer & Desginer" name="title" wrap="off" rows="10" wrap="hard" name="extra_info" value={props.listingType.extra_info} onChange={wordCount}></textarea>
+          <textarea placeholder="Website Developer & Desginer" name="title" wrap="off" rows="10" wrap="hard" name="extra_note" value={props.listingType.extra_info} onChange={wordCount}></textarea>
         </div>
         <div className="word-count">
           <p>{extraDetailsLength}/500 Words</p>
         </div>
       </div>
     </form>
+    <form className="form-holder-one loading-In-Animation" autocomplete="off">
+      <h1>Location</h1>
+      <div className="input-fields mt-10">
+        <label>Postal code or street address</label>
+        <div className="icon-row">
+          <input placeholder="123 321 or Toronto" type="text" name="address" value={props.listingType.address} onChange={deboundLocation}></input>
+        </div>   
+      </div>
+      {pointOfInterest && showAddressList &&
+        <div className="point-of-interest-box">
+          <ul>
+            {
+              pointOfInterest.map(location => (
+                <li onClick={(e) => locationSelected(location.center, location.place_name)}><i class="bi bi-geo-alt"></i>{location.place_name}</li>
+              ))
+            }
+          </ul>
+        </div>
+      }
+      <div ref={mapContainer} className="map-container" />
+    </form>
 
-  <div className="">
-      <button className="button-hover" onClick={(e) => props.setProcessStage({two: true})}><i class="fas fa-arrow-right"></i>&nbsp;Continue</button>
-  </div>
+    <div className="button-continue-post">
+      {props.listingType.number && props.listingType.address ? <button className="button-hover" onClick={(e) => props.continueButton('three')}><i class="fas fa-arrow-right"></i>&nbsp;Continue</button> : <button className="disabled-selected-button "><i class="fas fa-arrow-right"></i>&nbsp;Continue</button>}
+    </div>
   </>
   )
 }

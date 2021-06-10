@@ -273,6 +273,7 @@ input{
 }
 
 .form-holder-one {
+  position: relative;
   border-radius: 10px;
   background-color: #fff;
   padding: 30px 40px;
@@ -465,9 +466,9 @@ input{
 }
 
 .disabled-selected-button {
-  background-color: #dff5ed;
-  color: #5c5c5c;
-  cursor: not-allowed;
+  background-color: #afdbcb !important;
+  color: #5c5c5c !important;
+  cursor: not-allowed !important;
 }
 
 .setting-container {
@@ -657,6 +658,19 @@ input{
   background-color: #ececec;
 }
 
+.icon-row > select {
+  padding: 13px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+}
+
+.icon-row > select > option {
+  padding: 20px !important;
+  background-color: #fff !important;
+}
+
 .urgent-remove {
   display: flex;
   align-items: center;
@@ -791,4 +805,117 @@ input{
 
 .tag-list > ul > li > i {
   cursor: pointer;
+}
+
+.button-continue-post {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-continue-post > button {
+  border: none;
+  background-color: #00b074;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 10px;
+  color: #fff;
+  padding: 15px;
+  font-weight: 600;
+  transition: .3s;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 20;
+  stroke: #00b074;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 4;
+  stroke: #fff;
+  stroke-miterlimit: 0;
+
+  box-shadow: inset 0px 0px 0px #00b074;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 2);
+  }
+}
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px  50px #00b074;
+}}
+
+.finshed-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(80vh);
+  flex-direction: column;
+}
+
+.finshed-page > h2 {
+  padding: 20px;
+}
+
+.point-of-interest-box {  
+  width: 80%;
+  z-index: 9999;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 52px 54px rgb(65 62 101 / 30%);
+}
+
+.point-of-interest-box > ul {
+  list-style-type: none;
+}
+
+.point-of-interest-box > ul > li {
+  color: #363636;
+  padding: 10px 20px;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  transition: .4s;
+  margin: 5px 0;
+}
+
+.point-of-interest-box > ul > li:hover {
+  background: #e4e4e4;
+}
+
+.point-of-interest-box > ul > li > i {
+  padding-right: 10px;
+}
+
+
+.map-container {
+  height: 400px;
 }

@@ -46,23 +46,23 @@ const Login = (props) => {
   }
 
   const socialMediaLogin = async (provider) => {
-    // let signedInUser = await props.allAuthFunction(provider);
-    // //console.log(signedInUser);
-    // databaseUsers.onSnapshot((querySnapShot) => {
-    //   const items = [];
-    //   querySnapShot.forEach((doc) => {
-    //     items.push(doc.data());
-    //   });
+    let signedInUser = await props.allAuthFunction(provider);
+    //console.log(signedInUser);
+    databaseUsers.onSnapshot((querySnapShot) => {
+      const items = [];
+      querySnapShot.forEach((doc) => {
+        items.push(doc.data());
+      });
 
-    //   let result = items.find(user => user.userId === signedInUser.uid);
-    //   if(result === undefined) {
-    //     const user = {
-    //       Name: signedInUser.displayName,
-    //       Email: signedInUser.email
-    //     }
-    //     firebase.firestore().collection("users").doc(signedInUser.uid).set(user);
-    //   }
-    // })
+      let result = items.find(user => user.userId === signedInUser.uid);
+      if(result === undefined) {
+        const user = {
+          Name: signedInUser.displayName,
+          Email: signedInUser.email
+        }
+        firebase.firestore().collection("users").doc(signedInUser.uid).set(user);
+      }
+    });
   }
 
   return (
@@ -73,7 +73,7 @@ const Login = (props) => {
           <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
           <div className="header-social-icon-split">
             <ul className="social Media">
-              <li className="google" onClick={{/*(e) => socialMediaLogin(new firebase.auth.GoogleAuthProvider())*/}}><i className="fab fa-google"></i></li>
+              <li className="google" onClick={(e) => socialMediaLogin(new firebase.auth.GoogleAuthProvider())}><i className="fab fa-google"></i></li>
               <li className="twitter"><i className="fab fa-twitter"></i></li>
               <li className="facebook" onClick={{/*((e) => socialMediaLogin(new firebase.auth.FacebookAuthProvider())*/}}><i className="fab fa-facebook-f"></i></li>
             </ul>
