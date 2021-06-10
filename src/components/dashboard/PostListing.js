@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 import FormOne from './posting-form/StepOne';
 import FormTwo from "./posting-form/StepTwo";
-
+import LastStep from "./posting-form/StepFour";
 const Post = (props) => {
+  const [editable, setEditable] = useState({
+    one: true,
+    two: false,
+    three: false,
+  });
   const [processStage, setProcessStage] = useState({one: true});
   const [addTypeSelected, setAddTypeSelected] = useState(false);
   const [listingType, setListingType] = useState({
     type: '',
     title: '',
     description: '',
-    tags: []
+    category: '',
+    tags: [],
+    number: '',
+    email: '',
+    extra_note: '',
+    address: '',
   });
 
   const processButton = (process) => {
@@ -40,26 +50,33 @@ const Post = (props) => {
     }));
   }
 
+  const continueButton = (location) => {
+    setProcessStage({[location]: true});
+    setEditable(prevInput => ({
+      ...prevInput, [location]: true
+    }))
+  }
+
   return (
     <div className="jobPosting-form">
       {addTypeSelected ?
         <>
           <div className="checklist-holder">
             <ul>
-              <li className={processStage.one ? "active-post-list-steps" : ""} onClick={(e) => processButton("one")}>01 <span>Get Started</span></li>
-              <li className={processStage.two ? "active-post-list-steps" : ""} onClick={(e) => processButton("two")}>02 <span>Information</span></li>
-              <li className={processStage.three ? "active-post-list-steps" : ""} onClick={(e) => processButton("three")} >03<span>Tech Components</span></li>
-              <li className={processStage.four ? "active-post-list-steps" : ""} onClick={(e) => processButton("four")}>04<span>Finish</span></li>
+              <li className={processStage.one ? "active-post-list-steps" : ""} onClick={(e) => editable.one && processButton("one")}>01<span>Get Started</span></li>
+              <li className={processStage.two ? "active-post-list-steps" : ""} onClick={(e) => editable.two && processButton("two")}>02 <span>Information</span></li>
+              <li className={processStage.three ? "active-post-list-steps" : ""} onClick={(e) => editable.three && processButton("three")} >03<span>Tech Components</span></li>
+              <li className={processStage.four ? "active-post-list-steps" : ""}>04<span>Finish</span></li>
             </ul>
             <div className="go-back-select-post-type">
               <button className="button-hover" onClick={goBack}><i class="fas fa-arrow-left"></i></button>
             </div>
           </div>
           <div className="form-right-side loading-In-Animation">
-            {processStage.one ? <FormOne setListingType={setListingType} setProcessStage={setProcessStage} setInputField={setInputField} listingType={listingType}/> : false}
-            {processStage.two ? <FormTwo setInputField={setInputField} listingType={listingType}/> : false}
+            {processStage.one ? <FormOne setListingType={setListingType} setInputField={setInputField} listingType={listingType} continueButton={continueButton}/> : false}
+            {processStage.two ? <FormTwo setInputField={setInputField} listingType={listingType} user={props.user} continueButton={continueButton}/> : false}
             {processStage.three ? <h1>Three</h1> : false}
-            {processStage.four ? <h1>Four</h1> : false}
+            {processStage.four ? <LastStep/> : false}
           </div>
         </> : 
         <div className="option-select-3 loading-In-Animation">

@@ -63,6 +63,16 @@ const App = () => {
     history.push('/');
   }
 
+  const allAuthFunction = (provider) => {
+    return firebase.auth().signInWithPopup(provider)
+      .then((res) => {
+        return res.user;
+      })
+      .catch((er) => {
+        return er;
+      });
+  }
+
   return (
     <>
       {!loading && 
@@ -98,7 +108,7 @@ const App = () => {
                     <img src="/background-person.png" />
                   </div>
                   <Route exact path="/user/login">
-                    {currentUser ? <Redirect to="/"/> : <Login login={login} successMessage={successMessage}></Login>}                    
+                    {currentUser ? <Redirect to="/"/> : <Login login={login} successMessage={successMessage} allAuthFunction={allAuthFunction}></Login>}                    
                   </Route>
                   <Route exact path="/user/signup">
                     {currentUser ? <Redirect to="/"/>: <Signup signup={signUp}></Signup>}                    

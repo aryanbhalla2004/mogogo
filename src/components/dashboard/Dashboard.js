@@ -59,7 +59,7 @@ const Dashboard = (props) => {
                 <Setting user={userInfo}></Setting>
               </Route>
               <Route exact path="/dashboard/post-job">
-                <Post></Post>
+                <Post user={userInfo}></Post>
               </Route>
             </Switch>
           </div>
