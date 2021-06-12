@@ -1272,8 +1272,6 @@ input{
   border-radius: 50%;
 }
 
-
-
 @keyframes ldio-bh44xkw0e6g {
   0% { transform: translate(-50%,-50%) rotate(0deg); }
   100% { transform: translate(-50%,-50%) rotate(360deg); }
@@ -1313,4 +1311,5 @@ input{
   backface-visibility: hidden;
   transform-origin: 0 0; /* see note above */
 }
+
 .ldio-bh44xkw0e6g div { box-sizing: content-box; }

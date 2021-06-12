@@ -13,9 +13,14 @@ import {auth, firebase} from './util/firebase';
 import EmailAuthReceiving from './components/emailAuthReceiving';
 import ConfirmActivation from './components/ConfirmAccountActivation';
 import Dashbord from './components/dashboard/Dashboard';
+import SearchResults from './components/Search-results';
 
 const App = () => {
   const history = useHistory();
+  const [searchJobQuery, setSearchJobQuery] = useState({
+    query: '',
+    location: ''
+  });
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading ] = useState(true);
   const [successMessage, setSuccessMessage] = useState('');
@@ -88,7 +93,7 @@ const App = () => {
                   <div className="header-overlay-picture">
                     <img src="/background-person.png" />
                   </div>
-                  <SearchBox></SearchBox>
+                  <SearchBox setSearchJobQuery={setSearchJobQuery}></SearchBox>
                 </div>
               </div>
               <div className="spliter-main-page">
@@ -136,6 +141,9 @@ const App = () => {
             </Route>
             <Route exact path="/">
               <Home></Home>
+            </Route>
+            <Route exact path="/search-results">
+              <SearchResults/>
             </Route>
             {/* <div className="copyright">
               <p>&copy;&nbsp;Copyright 2021 | All Reserved By Mogogo</p>
