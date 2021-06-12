@@ -1,12 +1,12 @@
 import { useState, useEffect} from 'react';
 import '../styles/search-box-home.css'
 const SearchBox = () => {
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState("");
   useEffect(() => {
     const locationInfo = async (pos) => {
       const response = await fetch(`http://api.positionstack.com/v1/reverse?access_key=c968fdc13c4c7ad94b64bfc708f5fa16&query=${pos.coords.latitude},${pos.coords.longitude}`);
       const JSON = await response.json();
-      setLocation(JSON.data[0].locality); 
+      setLocation(`${JSON.data[0].locality}, ${JSON.data[0].region_code}`); 
     }
     navigator.geolocation.getCurrentPosition(locationInfo);
   }, []);
