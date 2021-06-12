@@ -1,0 +1,35 @@
+.results-page-holder {
+  border: 1px solid;
+  display: flex;
+  padding-top: 120px;
+  justify-content: center;
+  align-content: center;
+  background: #ececec;
+  height: calc(100vh);
+}
+
+.results-page-holder-content {
+
+}
+
+.filter-holders {
+  max-width: 400px;
+  position: absolute;
+  width: 100%;
+  border: 1px solid;
+}
+
+.search-and-results {
+  border: 1px solid;
+  max-width: 800px;
+  margin-left: 400px;
+}
+
+.search-input-holder {
+  display: flex;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+  background: #fff;
+}

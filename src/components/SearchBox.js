@@ -1,28 +1,44 @@
 import { useState, useEffect} from 'react';
-import '../styles/search-box-home.css'
-const SearchBox = () => {
-  const [location, setLocation] = useState("");
+import '../styles/search-box-home.css';
+import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
+
+const SearchBox = (props) => {
+  const history = useHistory();
+  const [location, setLocation] = useState('');
+  const [query, setQuery] = useState('');
   useEffect(() => {
     const locationInfo = async (pos) => {
       const response = await fetch(`http://api.positionstack.com/v1/reverse?access_key=c968fdc13c4c7ad94b64bfc708f5fa16&query=${pos.coords.latitude},${pos.coords.longitude}`);
       const JSON = await response.json();
       setLocation(`${JSON.data[0].locality}, ${JSON.data[0].region_code}`); 
+
     }
     navigator.geolocation.getCurrentPosition(locationInfo);
   }, []);
+
+  const searchListingForm = (e) => {
+    e.preventDefault();
+    props.setSearchJobQuery({
+      query: query,
+      location: location
+    });
+    if(query !== "") {
+      history.push('/search-results');
+    }
+  }
 
   return (
     <div className="search-container">
       <div className="content-sizing search-content">
         <div className="slider-header-search">
           <h1>Find the right person for your job.</h1>
-            <form>
+            <form onSubmit={searchListingForm}>
             {location ?
               <>
               <div className="form-input-main">
                 <div className="search-input">
                   <span className="material-icons">search</span>
-                  <input placeholder="Job Title" />
+                  <input placeholder="Job Title" value={query} onChange={(e) => setQuery(e.target.value)}/>
                 </div>
                 <div className="line-from"></div>
                 <div className="location-select">
@@ -50,7 +66,7 @@ const SearchBox = () => {
                   </ul>
                 </div>
               </div>
-              <button className="search-button-main button-hover">SEARCH</button>
+              <button className="search-button-main button-hover" type="submit">SEARCH</button>
             </>
               : 
             <div class="loadingio-spinner-rolling-thiibpdvbmo">
