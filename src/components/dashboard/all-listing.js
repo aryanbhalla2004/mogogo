@@ -1,17 +1,31 @@
+import { useState, useEffect } from "react";
 import { Redirect, useHistory, Link, Switch, Route } from "react-router-dom";
 import moment from "moment";
 const Listings = (props) => {
+  const [results, setResults] = useState();
+  const [activePage, setActivePage] = useState({active: true});
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    setResults(props.allListing);
+  }, [props.allListing]);
+
+  useEffect(() => {
+    let info = props.allListing.filter(list => list.title.toLowerCase().includes(search.toLocaleLowerCase()));
+    setResults(info);
+  }, [search]);
+
   return (
     <>
       <div className="listing-header">
         <h1>Posted Jobs</h1>
         <div className="icon-row search-bar-all-listing">
           <span className="material-icons back">search</span>
-          <input placeholder="Website Developer & Desginer" name="title" value="" onChange=""></input>
+          <input placeholder="Search...." name="title" value={search} onChange={(e) => setSearch(e.target.value)}></input>
         </div>
-        <div>
-          <Link>Active</Link>
-          <Link>Inactive</Link>
+        <div className="button-active-inactive">
+          <Link className={activePage.active ? "button-listing-active" : ""} onClick={(e) =>  setActivePage({active: true})}>Active <span>{props.allListing.length}</span></Link>
+          <Link className={activePage.inactive ? "button-listing-active" : ""} onClick={(e) =>  setActivePage({inactive: true})}>Inactive <span>{props.inactive ? props.inactive.length : 0}</span></Link>
         </div>
       </div>
       <div className="ad-listing-listing-page">
@@ -25,8 +39,8 @@ const Listings = (props) => {
               <th className="view-holder">Views</th>
               <th className="modify-holder">Modify</th>
             </tr>
-            {props.allListing.length > 0 ? 
-            props.allListing.map(list => (
+            {results ? 
+            results.map(list => (
               <tr className="single-data">
                 <td className="image-holder">
                   <img src="/12.jpeg" width="100%"/>
