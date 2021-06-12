@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 const LastStep = () => {
   return (
     <div className="finshed-page">
@@ -8,6 +10,10 @@ const LastStep = () => {
       <h2>Your All Set!</h2>
       <p>The listing has been posted on Mogogo, and its visible to all the users</p>
       <p className="mt-10">We hope you enjoyed the process!!</p>
+      <div className="button-four-form-bottom">
+        <Link to="/dashboard/all-listing" className="button-hover">View Posts</Link>
+        <Link to="/dashboard" className="">Dashboad</Link>
+      </div>
     </div>
   )
 }

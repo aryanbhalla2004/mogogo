@@ -5,14 +5,12 @@ const FormTwo = (props) => {
   const [extraDetailsLength, setExtraDetailsLength] = useState('0');
   const [pointOfInterest, setPointOfInterest] = useState([]);
   const [showAddressList, setShowAddressList] = useState(false);
-  const mapContainer = useState(null);
-  const map = useState(null);
+  const mapContainer = useRef(null);
+  const map = useRef(null);
   const [crd, setCrd] = useState({
     latitude: '',
     longitude: ''
   });
-  const [lng, setLng] = useState('');
-  const [lat, setLat] = useState('');
   const [zoom, setZoom] = useState(12);
  
 
@@ -56,6 +54,17 @@ const FormTwo = (props) => {
     fetchData();
   }, [props.listingType.address]);
 
+  const drawMap = (paramlng, paramlat) => {
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ5YW5iaGFsbGEiLCJhIjoiY2ttbWMxYjN0MG4zNzJ2b2RzenNtNHloeCJ9.D28HxdUCUpf7YpvsQZ26AQ';
+    
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [paramlng, paramlat],
+      zoom: zoom
+    });
+  }
 
   const locationSelected = (pos, content) => {
     const info = {
@@ -65,23 +74,11 @@ const FormTwo = (props) => {
       }
     }
     props.setInputField(info);
-    setLng(pos[0]);
-    setLat(pos[1]);
     setShowAddressList(false);
+    //drawMap(pos[0], pos[1]);
   }
   
-  useEffect(() => {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ5YW5iaGFsbGEiLCJhIjoiY2ttbWMxYjN0MG4zNzJ2b2RzenNtNHloeCJ9.D28HxdUCUpf7YpvsQZ26AQ';
-    
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [lng, lat],
-      zoom: zoom
-    });
-    
-  }, [lng]);
+  
 
   return (
     <>
@@ -133,7 +130,6 @@ const FormTwo = (props) => {
           </ul>
         </div>
       }
-      <div ref={mapContainer} className="map-container" />
     </form>
 
     <div className="button-continue-post">

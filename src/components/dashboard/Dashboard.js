@@ -1,19 +1,23 @@
 import { Children, useEffect, useState } from "react"
 import { Redirect, useHistory, Link, Switch, Route } from "react-router-dom";
-import {firebase} from '../../util/firebase';
+import {auth, firebase} from '../../util/firebase';
 import Header from './Dashboard-Header';
 import Post from './PostListing';
 import '../../styles/dashboard.css'
 import Home from "./home";
 import Setting from './setting'
+import Listings from "./all-listing";
 
 
 const Dashboard = (props) => {
-  const history = useHistory();
+  const uid = auth.currentUser.uid;
   const [userInfo, setUserInfo] = useState();
   const [loading, setLoading] = useState(false);
   const [pageLocation, setPageLocation] = useState({dashboard: true});
+  const [allListing, setListing] = useState([]);
   const ref = firebase.firestore().collection('users');
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleteId, setDeleteId] = useState();
 
   const getUser = () => {
     let user = ref.doc(props.currentUser.uid);
@@ -23,8 +27,32 @@ const Dashboard = (props) => {
     });
   }
 
+  const deleteListing = async () => {
+    try {
+      await firebase.firestore().collection('listings').doc(uid).collection('post').doc(deleteId).delete();
+    } catch (e) {
+      console.log(e);
+    }
+
+
+    setConfirmDelete(false);
+  }
+
   useEffect(() => {
     getUser();
+    const FetchInfo = async () => {
+      const cityRef = firebase.firestore().collection('listings').doc(uid).collection('post');
+      cityRef.onSnapshot((querySnapShot) => {
+        const items = [];
+        querySnapShot.forEach((doc) => {
+          let info = doc.data();
+          let id = doc.id;
+          items.push({...info, id});  
+        });
+        setListing(items);
+      });
+    }
+    FetchInfo();
   }, [])
 
   return (
@@ -39,7 +67,7 @@ const Dashboard = (props) => {
             </div>
             <div className="sidebar-menu">
               <Link to="/dashboard" className={pageLocation.dashboard === true ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({dashboard: true})}><i class="fas fa-th-large"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Dashboard</span></Link>
-              <Link to="/dashboard/inquires" className={pageLocation.all_posting ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({all_posting: true})}><i class="fas fa-briefcase"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Posted Jobs</span></Link>
+              <Link to="/dashboard/all-listing" className={pageLocation.all_posting ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({all_posting: true})}><i class="fas fa-briefcase"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Posted Jobs</span></Link>
               <Link to="/dashboard/inquires" className={pageLocation.inquires ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({inquires: true})}><i class="fas fa-envelope"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Inquires</span></Link>
               <Link to="/dashboard/settings"className={pageLocation.settings ? 'active-side-bar' : ''} onClick={(e) => setPageLocation({settings: true})}><i class="fas fa-cog"></i>&nbsp;&nbsp;<span className="name-list-sidebar">Settings</span></Link>
             </div>
@@ -47,10 +75,10 @@ const Dashboard = (props) => {
           <div className="content">
             <Switch>
               <Route exact path="/dashboard">
-                <Home></Home>
+                <Home totalListing={allListing.length}></Home>
               </Route>
               <Route exact path="/dashboard/all-listing">
-                <h1>All Listing</h1>
+                <Listings allListing={allListing} setConfirmDelete={setConfirmDelete} setDeleteId={setDeleteId}/>
               </Route>
               <Route exact path="/dashboard/inquires">
                 <h1>Messages</h1>
@@ -66,6 +94,22 @@ const Dashboard = (props) => {
         </div>
       </>
       }
+      {
+      confirmDelete === true ?
+      <div class="confirmDelete-listing">
+        <div className="confirm-Delete-box loading-In-Animation">
+          <div className="trash-icon-holder">
+            <i class="far fa-trash-alt"></i>
+          </div>
+          <h2>Want to Delete</h2>
+          <p className="delete-text">Are you sure you want to delete this listing? You will <span className="primary-color">not be able to recover</span> them.</p>
+          <div className="button-clean">
+            <Link className="urgent-red" onClick={(e) => deleteListing()}>Delete</Link>
+            <Link className="button-hover" onClick={(e) => setConfirmDelete(false) || setDeleteId('')}>Cancle</Link>
+          </div>
+        </div>
+      </div> : false
+    }
     </>
   )
 }
