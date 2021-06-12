@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import FormOne from './posting-form/StepOne';
 import FormTwo from "./posting-form/StepTwo";
 import LastStep from "./posting-form/StepFour";
+import FormThree from "./posting-form/StepThree";
+import {auth, firebase} from '../../util/firebase';
+import { mockComponent } from "react-dom/cjs/react-dom-test-utils.production.min";
+import moment from "moment";
 const Post = (props) => {
   const [editable, setEditable] = useState({
     one: true,
@@ -9,7 +13,9 @@ const Post = (props) => {
     three: false,
   });
   const [processStage, setProcessStage] = useState({one: true});
+  const [backButtonShow, setBackButtonShow] = useState(true);
   const [addTypeSelected, setAddTypeSelected] = useState(false);
+  const userId = auth.currentUser.uid;
   const [listingType, setListingType] = useState({
     type: '',
     title: '',
@@ -17,9 +23,14 @@ const Post = (props) => {
     category: '',
     tags: [],
     number: '',
-    email: '',
+    email: [props.user && props.user.Email],
     extra_note: '',
     address: '',
+    website: '',
+    youTube: '',
+    Image: '',
+    ownerId: userId,
+    posted_date: moment().format('MM-DD-YYYY'),
   });
 
   const processButton = (process) => {
@@ -50,15 +61,22 @@ const Post = (props) => {
     }));
   }
 
-  const continueButton = (location) => {
-    setProcessStage({[location]: true});
-    setEditable(prevInput => ({
-      ...prevInput, [location]: true
-    }))
+  const continueButton = async (location) => {
+    if(location === "four") {
+      setEditable({one: false, two: false, three: false});
+      setProcessStage({[location]: true});
+      setBackButtonShow(false);
+      await firebase.firestore().collection("listings").doc(userId).collection("post").doc().set(listingType)
+    } else {
+      setProcessStage({[location]: true});
+      setEditable(prevInput => ({
+        ...prevInput, [location]: true
+      }));
+    }
   }
 
   return (
-    <div className="jobPosting-form">
+    <div className="jobPosting-form loading-In-Animation">
       {addTypeSelected ?
         <>
           <div className="checklist-holder">
@@ -69,13 +87,13 @@ const Post = (props) => {
               <li className={processStage.four ? "active-post-list-steps" : ""}>04<span>Finish</span></li>
             </ul>
             <div className="go-back-select-post-type">
-              <button className="button-hover" onClick={goBack}><i class="fas fa-arrow-left"></i></button>
+            {backButtonShow && <button className="button-hover" onClick={goBack}><i class="fas fa-arrow-left"></i></button>}
             </div>
           </div>
           <div className="form-right-side loading-In-Animation">
             {processStage.one ? <FormOne setListingType={setListingType} setInputField={setInputField} listingType={listingType} continueButton={continueButton}/> : false}
             {processStage.two ? <FormTwo setInputField={setInputField} listingType={listingType} user={props.user} continueButton={continueButton}/> : false}
-            {processStage.three ? <h1>Three</h1> : false}
+            {processStage.three ? <FormThree continueButton={continueButton} setInputField={setInputField} listingType={listingType} /> : false}
             {processStage.four ? <LastStep/> : false}
           </div>
         </> : 

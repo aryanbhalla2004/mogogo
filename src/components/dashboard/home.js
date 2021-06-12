@@ -1,4 +1,4 @@
-const Home = () => {
+const Home = (props) => {
   return (
     <>
       <div class="information-dashboard-four-tabs loading-In-Animation">
@@ -8,7 +8,7 @@ const Home = () => {
               <i class="fas fa-briefcase"></i>
             </div>
             <div className="information-listing-box">
-              <h1>0</h1>
+              <h1>{props.totalListing}</h1>
               <p>Posted Job</p>
             </div>
           </li>
