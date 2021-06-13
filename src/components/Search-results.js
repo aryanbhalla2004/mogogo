@@ -6,6 +6,7 @@ import {auth, firebase} from '../util/firebase';
 const SearchResults = (props) => {
   //const [lastId, setLastId] = useState({});
   const [jobList, setJobList] = useState([]);
+  const [styleBlock, setStyleBlock] = useState(true);
 
   // useEffect(() => {
   //   firebase.firestore().collection('listings').get().then((querySnapshot) => {
@@ -132,15 +133,16 @@ const SearchResults = (props) => {
           </div>
           <div className="results">
             <div className="top-info-about-result">
+              <p><span className="total-result">120</span> result for <span className="search-name">computer repair</span></p>
               <div>
-
-              </div>
-              <div>
-
+                <i className={styleBlock ? "fas fa-th-large active-style" : "fas fa-th-large"} onClick={(e) => setStyleBlock(true)}></i>
+                <i className={!styleBlock ? "fas fa-list active-style": 'fas fa-list'} onClick={(e) => setStyleBlock(false)}></i>
               </div>
             </div>
             <ul>
-              <li>
+              {
+                styleBlock ? 
+                <li>
                 <div className="logo-holder">
                   <img src="/12.jpeg" width="100%"/>
                 </div>
@@ -160,112 +162,53 @@ const SearchResults = (props) => {
                   <Link className="button-hover">INQUIRY</Link>
                   <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
                 </div>
-              </li>
-              <li>
-                <div className="logo-holder">
-                  <img src="/12.jpeg" width="100%"/>
+              </li> :
+              <li className="list-style">
+                <div className="topbar-info">
+                  <div className="left-side">
+                    <img src="/12.jpeg" width="100px"/>
+                    <ul>
+                      <h2>Computer Repair and Technology</h2>
+                      <p>Information Technology</p>
+                    </ul>
+                  </div>
+                  <div className="button-post listing-buttons">
+                    <Link className="button-hover">INQUIRY</Link>
+                    <Link><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</Link>
+                  </div>
                 </div>
-                <div className="title-info">
-                  <p>Information Technology</p>
-                  <h2>Computer Repair and Technology</h2>
-                </div>
-                <div className="tags">
+                <div className="tags listing-tags">
                   <ul>
                     <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
                     <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
                     <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
                   </ul>
                 </div>
-                <p>We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.</p>
-                <div className="button-post">
-                  <Link className="button-hover">INQUIRY</Link>
-                  <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
-                </div>
-              </li>
-              <li>
-                <div className="logo-holder">
-                  <img src="/12.jpeg" width="100%"/>
-                </div>
-                <div className="title-info">
-                  <p>Information Technology</p>
-                  <h2>Computer Repair and Technology</h2>
-                </div>
-                <div className="tags">
+              </li> &&
+              <li className="list-style">
+              <div className="topbar-info">
+                <div className="left-side">
+                  <img src="/12.jpeg" width="100px"/>
                   <ul>
-                    <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
-                    <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
-                    <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
+                    <h2>Computer Repair and Technology</h2>
+                    <p>Information Technology</p>
                   </ul>
                 </div>
-                <p>We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.</p>
-                <div className="button-post">
+                <div className="button-post listing-buttons">
                   <Link className="button-hover">INQUIRY</Link>
-                  <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
+                  <Link><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</Link>
                 </div>
-              </li>
-              <li>
-                <div className="logo-holder">
-                  <img src="/12.jpeg" width="100%"/>
-                </div>
-                <div className="title-info">
-                  <p>Information Technology</p>
-                  <h2>Computer Repair and Technology</h2>
-                </div>
-                <div className="tags">
-                  <ul>
-                    <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
-                    <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
-                    <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
-                  </ul>
-                </div>
-                <p>We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.</p>
-                <div className="button-post">
-                  <Link className="button-hover">INQUIRY</Link>
-                  <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
-                </div>
-              </li>
-              <li>
-                <div className="logo-holder">
-                  <img src="/12.jpeg" width="100%"/>
-                </div>
-                <div className="title-info">
-                  <p>Information Technology</p>
-                  <h2>Computer Repair and Technology</h2>
-                </div>
-                <div className="tags">
-                  <ul>
-                    <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
-                    <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
-                    <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
-                  </ul>
-                </div>
-                <p>We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.</p>
-                <div className="button-post">
-                  <Link className="button-hover">INQUIRY</Link>
-                  <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
-                </div>
-              </li>
-              <li>
-                <div className="logo-holder">
-                  <img src="/12.jpeg" width="100%"/>
-                </div>
-                <div className="title-info">
-                  <p>Information Technology</p>
-                  <h2>Computer Repair and Technology</h2>
-                </div>
-                <div className="tags">
-                  <ul>
-                    <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
-                    <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
-                    <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
-                  </ul>
-                </div>
-                <p>We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.</p>
-                <div className="button-post">
-                  <Link className="button-hover">INQUIRY</Link>
-                  <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
-                </div>
-              </li>
+              </div>
+              <div className="tags listing-tags">
+                <ul>
+                  <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
+                  <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
+                  <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
+                </ul>
+              </div>
+            </li>
+              }
+              
             </ul>
             {/* {jobList && jobList.map(list => (
               <h1>{list.title}</h1>
