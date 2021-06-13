@@ -54,17 +54,6 @@ const FormTwo = (props) => {
     fetchData();
   }, [props.listingType.address]);
 
-  const drawMap = (paramlng, paramlat) => {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiYXJ5YW5iaGFsbGEiLCJhIjoiY2ttbWMxYjN0MG4zNzJ2b2RzenNtNHloeCJ9.D28HxdUCUpf7YpvsQZ26AQ';
-    
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [paramlng, paramlat],
-      zoom: zoom
-    });
-  }
 
   const locationSelected = (pos, content) => {
     const info = {
@@ -75,7 +64,6 @@ const FormTwo = (props) => {
     }
     props.setInputField(info);
     setShowAddressList(false);
-    //drawMap(pos[0], pos[1]);
   }
   
   

@@ -28,7 +28,7 @@ const Header = (props) => {
   let headerButton = [<Link className="login-button-header" to="/user/login">LOG IN</Link>,<Link className="sign-up-button-header button-hover" to="/user/signup">SIGN UP</Link>];
   if (props.userSession) {
     headerButton = [
-      <li className="user-header-main-button heart"><Link><i className="far fa-heart"></i></Link></li>,
+      <li className="user-header-main-button heart"><Link><i class="far fa-bookmark"></i></Link></li>,
       <li className="user-header-main-button bell"><Link><i className="far fa-bell"></i></Link></li>,
       <li className="user-header-main-button mail"><Link><i className="far fa-envelope"></i></Link></li>,
       <Link class="sign-up-button-header button-hover account-button" onMouseEnter={(e) => setAccountMenu(true)} onMouseLeave={(e) => setAccountMenu(false)}>MY ACCOUNT&nbsp;<i className="fas fa-chevron-down"></i>

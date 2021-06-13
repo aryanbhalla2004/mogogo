@@ -53,7 +53,13 @@ const Dashboard = (props) => {
       });
     }
     FetchInfo();
+
+    
   }, [])
+
+  useEffect(() => {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }, [{pageLocation}])
 
   return (
     <>

@@ -1,16 +1,15 @@
 import { useState, useEffect} from 'react';
 import '../styles/search-box-home.css';
-import {Switch, Route, Redirect, useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 
 const SearchBox = (props) => {
   const history = useHistory();
-  const [location, setLocation] = useState('');
-  const [query, setQuery] = useState('');
+  
   useEffect(() => {
     const locationInfo = async (pos) => {
       const response = await fetch(`http://api.positionstack.com/v1/reverse?access_key=c968fdc13c4c7ad94b64bfc708f5fa16&query=${pos.coords.latitude},${pos.coords.longitude}`);
       const JSON = await response.json();
-      setLocation(`${JSON.data[0].locality}, ${JSON.data[0].region_code}`); 
+      props.setLocation(`${JSON.data[0].locality}, ${JSON.data[0].region_code}`); 
 
     }
     navigator.geolocation.getCurrentPosition(locationInfo);
@@ -19,10 +18,10 @@ const SearchBox = (props) => {
   const searchListingForm = (e) => {
     e.preventDefault();
     props.setSearchJobQuery({
-      query: query,
-      location: location
+      query: props.query,
+      location: props.location
     });
-    if(query !== "") {
+    if(props.query !== "") {
       history.push('/search-results');
     }
   }
@@ -33,21 +32,21 @@ const SearchBox = (props) => {
         <div className="slider-header-search">
           <h1>Find the right person for your job.</h1>
             <form onSubmit={searchListingForm}>
-            {location ?
+            {props.location ?
               <>
               <div className="form-input-main">
                 <div className="search-input">
                   <span className="material-icons">search</span>
-                  <input placeholder="Job Title" value={query} onChange={(e) => setQuery(e.target.value)}/>
+                  <input placeholder="Job Title" value={props.query} onChange={(e) => props.setQuery(e.target.value)}/>
                 </div>
                 <div className="line-from"></div>
                 <div className="location-select">
                   <span className="material-icons local-fix">location_on</span>
-                  <select value={location} selected>
+                  <select value={props.location} selected>
                     <option value="">Alberta</option>
                     <option value="">British Columbia</option>
                     <option value="">Newfoundland and Labrador</option>
-                    <option value={location} selected>{location}</option>
+                    <option value={props.location} selected>{props.location}</option>
                   </select>
                   <ul className="selection">
                     <li>Alberta</li>
