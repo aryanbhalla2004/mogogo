@@ -24,6 +24,8 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading ] = useState(true);
   const [successMessage, setSuccessMessage] = useState('');
+  const [location, setLocation] = useState('');
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -93,7 +95,7 @@ const App = () => {
                   <div className="header-overlay-picture">
                     <img src="/background-person.png" />
                   </div>
-                  <SearchBox setSearchJobQuery={setSearchJobQuery}></SearchBox>
+                  <SearchBox setSearchJobQuery={setSearchJobQuery} setLocation={setLocation} setQuery={setQuery} location={location} query={query}></SearchBox>
                 </div>
               </div>
               <div className="spliter-main-page">
@@ -143,7 +145,7 @@ const App = () => {
               <Home></Home>
             </Route>
             <Route exact path="/search-results">
-              <SearchResults/>
+              <SearchResults setLocation={setLocation} setQuery={setQuery} location={location} query={query}/>
             </Route>
             {/* <div className="copyright">
               <p>&copy;&nbsp;Copyright 2021 | All Reserved By Mogogo</p>
