@@ -1,0 +1,276 @@
+.job-details-details-container {
+  padding-top: 100px;
+}
+
+.job-details-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.job-details-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+  color: #fff;
+  background-color: #1d292e;;
+}
+
+.job-details-flex-fix {
+  display: flex;
+  justify-content: space-between !important;
+  align-items: center;
+}
+
+.job-details-flex-fix > ul > h2 {
+  font-size: 35px;
+}
+
+.job-details-info-content {
+  padding: 50px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.job-left-column {
+  max-width: 800px;
+  width: 100%;
+}
+
+.job-right-column {
+  max-width: 370px;
+  width: 100%;
+}
+
+.job-left-column > ul , .job-right-column > ul{
+  list-style-type: none;
+}
+
+
+.job-left-column > ul > li , .job-right-column > ul > li{
+  padding: 30px 20px 20px;
+  margin-bottom: 20px;
+  border: 1px solid #eaeff5;
+  border-radius: 6px;
+  background-color: #fff !important;
+}
+
+
+.bottom-info-job > ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 20px;
+}
+
+.bottom-info-job > ul > li {
+  max-width: 200px;
+  margin: 8px 5px;
+  width: 100%;
+  color: #677782;
+  font-size: 15px;
+}
+
+.top-info-job {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.top-info-job > h2 {
+  padding: 10px 0 2px 0;
+  font-size: 30px;
+}
+
+.top-info-job > p {
+  color: #1d292e;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.overview-text {
+  padding: 0 !important;
+}
+
+.overview-text-holder { 
+  border-bottom: 1px solid #eaeff5;
+  margin-bottom: 10px;
+  padding: 13px 20px;
+}
+
+.overview-text-holder > h2 {
+  font-size: 20px;
+  color: #1d292e;
+}
+
+.overview-text > form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 10px 20px;
+}
+
+.overview-text > form > input {
+  width: 48%;
+  margin: 10px 0;
+  padding: 10px 10px;
+  border: 1px solid #d6d6d6;
+}
+
+.overview-text > form >  textarea {
+  width: 100% !important;
+  border: 1px solid #d6d6d6;
+  resize: none;
+}
+
+.overview-description {
+  padding: 10px 20px 20px;
+}
+
+.overview-description > p {
+  margin: 0 0 12.5px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #677782;
+}
+
+.padding-fix {
+  padding-left: 0;
+}
+
+.job-right-column > ul > li {
+  padding-top: 0;
+}
+
+.social-media {
+  display: flex;
+  padding: 15px 0;
+}
+
+.social-media > ul {
+  display: flex;
+  list-style-type: none;
+  margin-left: 10px;
+}
+
+.social-media > ul > li {
+  padding: 0px 15px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.information-job-poster > ul {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin-top: 20px;
+}
+
+.information-job-poster > ul > li {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.information-job-poster > ul > li > i {
+  color: #00b074;
+  font-size: 35px;
+  max-width: 40px;
+  width: 100%;
+  padding: 8px 5px;
+  padding-top: 0;
+}
+
+.information-text {
+  padding: 0 5px 0 20px;
+}
+
+.information-text > h3 {
+  font-weight: 400;
+  padding-bottom: 5px;
+}
+
+.information-text > p {
+  color: #677782;
+  font-size: 15px;
+}
+
+.review-box {
+  padding: 8px 15px;
+  border-radius: 50px;
+  margin-top: 10px;
+  margin-bottom: -10px;
+  background-color: #1d292e;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+}
+
+.review-box > ul {
+  display: flex;
+  list-style-type: none;
+  margin-right: 10px;
+}
+
+.review-box > ul > li {
+  padding-right: 10px;
+}
+
+.review-box > ul > li > i{
+  color: #00b074;
+  font-size: 18px;
+} 
+
+.review-form {
+  padding: 0px 5px;
+}
+
+.review-form-text-area-fix {
+  padding: 5px;
+  width: 100%;
+}
+
+.rating-holder {
+  display: flex;
+  padding: 0px 5px;
+  margin-top: -40px;
+  align-items: center;
+}
+
+.rating-holder > p {
+  color: #1d292e;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.rating-holder > ul {
+  list-style-type: none;
+  display: flex;
+  padding-left: 10px;
+}
+
+.rating-holder > ul > li {
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.rating-holder > ul > li > i{
+  color: #00b074;
+  font-size: 16px;
+}
+
+.overview-text > form > button {
+  border: none;
+  background-color: #00b074;
+  color: #fff;
+  font-size: 18px;
+  width: 100%;
+  padding: 15px 20px;
+  margin: 10px 5px;
+  cursor: pointer;
+}

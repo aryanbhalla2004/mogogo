@@ -14,6 +14,7 @@ import EmailAuthReceiving from './components/emailAuthReceiving';
 import ConfirmActivation from './components/ConfirmAccountActivation';
 import Dashbord from './components/dashboard/Dashboard';
 import SearchResults from './components/Search-results';
+import JobDetails from './components/job-details';
 
 const App = () => {
   const history = useHistory();
@@ -146,6 +147,9 @@ const App = () => {
             </Route>
             <Route exact path="/search-results">
               <SearchResults setLocation={setLocation} setQuery={setQuery} location={location} query={query}/>
+            </Route>
+            <Route exact path="/job-details">
+              <JobDetails/>
             </Route>
             {/* <div className="copyright">
               <p>&copy;&nbsp;Copyright 2021 | All Reserved By Mogogo</p>
