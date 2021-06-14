@@ -67,9 +67,8 @@
 }
 
 .bottom-info-job > ul > li {
-  max-width: 200px;
+  width: 32%;
   margin: 8px 5px;
-  width: 100%;
   color: #677782;
   font-size: 15px;
 }
@@ -83,8 +82,9 @@
 }
 
 .top-info-job > h2 {
-  padding: 10px 0 2px 0;
+  padding: 10px 0;
   font-size: 30px;
+  text-align: center;
 }
 
 .top-info-job > p {
@@ -214,7 +214,7 @@
 .review-box > ul {
   display: flex;
   list-style-type: none;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .review-box > ul > li {
@@ -293,7 +293,6 @@
   border-radius: 2px;
   margin-bottom: 10px;
   display: flex;
-  justify-content: space-between;
 }
 
 .profile-name {
@@ -390,4 +389,9 @@
   to {
     opacity: 0;
   }
+}
+
+#one {
+  border: 1px solid;
+  width: 100px;
 }

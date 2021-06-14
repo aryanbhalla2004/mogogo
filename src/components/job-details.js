@@ -1,18 +1,96 @@
 import '../styles/job-details.css';
-import macaddress from 'macaddress';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
+import ReactStars from "react-rating-stars-component";
+import {auth, firebase} from '../util/firebase';
+import { useParams } from 'react-router-dom';
+import moment from 'moment';
+
 
 const JobDetails = () => {
+  const {masterId, listingId} = useParams();
+  const [listing, setListing] = useState([]);
   const [commentStatus, setCommentStatus] = useState(false);
+  const [ratingMaster, setRatingMaster] = useState();
+  const [commentValueReadonly, setCommentValueReadonly] = useState(false);
+  const [commentInfo, setCommentInfo] = useState({
+    name: '',
+    email: '',
+    desc: '',
+    rating: 0
+  });
+
+  const fetchData = async() => {
+    firebase.firestore().collection('listings').doc(masterId).collection("post").doc(listingId).get()
+    .then((docRef) =>  {
+      setListing(docRef.data());
+    });
+
+    if(auth.currentUser !== null) {
+      setCommentInfo({name: auth.currentUser.displayName, email: auth.currentUser.email});
+      setCommentValueReadonly(true);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+  const updateUserInput = (e) => {
+    setCommentInfo(prevInput => ({
+      ...prevInput, [e.target.name]: e.target.value
+    }));
+  }
+
+  const ratingChanged = (newRating) => {
+    setCommentInfo(prevInput => ({
+      ...prevInput, rating: newRating
+    }));
+  };
+  
+  const addComment = async(e) => {
+    if(commentInfo.name !== "" && commentInfo.email !== "" && commentInfo.desc !== "" && commentInfo.rating > 0) {
+      e.preventDefault();
+      listing.review.push(commentInfo);
+      await firebase.firestore().collection('listings').doc(masterId).collection("post").doc(listingId).set(listing);
+      fetchData()
+    }
+  }
+
+  const ratingStar = () => {
+    if(listing.review) {
+      let divingNumber = listing.review.length;
+      let totalStar = 0;
+      let number = 0;
+      listing.review && listing.review.forEach(star => {
+        totalStar += star.rating;
+      });
+      number = (totalStar / divingNumber).toFixed(1);
+      const string = [<li><i class="bi bi-star"></i></li>,<li><i class="bi bi-star"></i></li>,<li><i class="bi bi-star"></i></li>,<li><i class="bi bi-star"></i></li>,<li><i class="bi bi-star"></i></li>];
+      for (let x = 0; x < Math.floor(number); x++) {
+        string[x] = <li><i class="bi bi-star-fill"></i></li>;
+      }
+      let minNum = number.toString().split('.')[1];
+      if(minNum > 7){
+        string[number.toString().split('.')[0]] = <li><i class="bi bi-star-fill"></i></li>;
+      } else if(minNum <= 7 && minNum > 3){
+        string[number.toString().split('.')[0]] = <li><i class="bi bi-star-half"></i></li>;
+      }
+
+      return string
+    }
+  }
+
   return (
     <div className="job-details-details-container">
+      {listing && <>
       <div className="job-details-header">
         <div className="content-sizing job-details-flex-fix">
           <ul>
-            <p>Home > Job > Software Developer</p>
+            <p>Home > Job > {listing.category}</p>
           </ul>
           <ul>
-            <h2>Software Developer</h2>
+            <h2>{listing.category}</h2>
           </ul>
         </div>
       </div>
@@ -22,27 +100,23 @@ const JobDetails = () => {
             <ul>
               <li>
                 <div className="top-info-job">
-                  <img src="12.jpeg" width="100"/>
-                  <h2>Software Developer</h2>
-                  <p><i class="bi bi-geo-alt"></i>&nbsp;91 Rue Taitbout 75009 Paris</p>
+                  <img src="/12.jpeg" width="100"/>
+                  <h2>{listing.title}</h2>
+                  <p><i class="bi bi-geo-alt"></i>&nbsp;{listing.address}</p>
                   <div className="review-box">
                     <ul>
-                      <li><i class="bi bi-star"></i></li>
-                      <li><i class="bi bi-star"></i></li>
-                      <li><i class="bi bi-star"></i></li>
-                      <li><i class="bi bi-star"></i></li>
-                      <li><i class="bi bi-star"></i></li>
+                      {ratingStar()}
                     </ul>
-                    <p>0 out of 5</p>
+                    <p>{listing.review && listing.review.length} Reviews</p>
                   </div>
                 </div>
                 <div className="bottom-info-job">
                   <ul>
-                    <li><i class="bi bi-telephone"></i>&nbsp;+610 123 789</li>
+                    <li><i class="bi bi-telephone"></i>&nbsp;{listing.number}</li>
                     <li><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
-                    <li><i class="bi bi-envelope"></i>&nbsp;example@example.com</li>
-                    <li><i class="bi bi-signpost"></i>&nbsp;June 29, 2021</li>
-                    <li><i class="bi bi-building"></i>&nbsp;Business</li>
+                    <li><i class="bi bi-envelope"></i>&nbsp;{listing.email}</li>
+                    <li><i class="bi bi-signpost"></i>&nbsp;{moment(listing.posted_date).format("MMM D YYYY")}</li>
+                    <li><i class="bi bi-building"></i>&nbsp;{listing.type}</li>
                     <li></li>
                   </ul>
                 </div>
@@ -52,35 +126,34 @@ const JobDetails = () => {
                   <h2>Overview</h2>
                 </div>
                 <div className="overview-description">
-                  <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.</p>
-                  <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.</p>
+                  <p>{listing.description}</p>
                 </div>
               </li>
               <li className="overview-text">
                 <div className="overview-text-holder">
                   <h2>Write a review</h2>
                 </div>
-                <form>
+                <form onSubmit={addComment}> 
                   <div className="flex-input-2 review-form">
                     <div className="input-fields half-width">
                       <label>Name</label>
                       <div className="icon-row">
                         <i class="bi bi-person"></i>
-                        <input placeholder="Your Name" type="url" name="website"  ></input>
+                        <input placeholder="Your Name" type="url" name="name" value={commentInfo.name} onChange={updateUserInput} readOnly={commentValueReadonly}/>
                       </div>   
                     </div>
                     <div className="input-fields half-width">
                       <label>Email</label>
                       <div className="icon-row">
                         <i class="bi bi-envelope"></i>
-                        <input placeholder="Your Email" type="url" name="youTube"></input>
+                        <input placeholder="Your Email" type="url" name="email" value={commentInfo.email} onChange={updateUserInput} readOnly={commentValueReadonly}/>
                       </div>   
                     </div>
                   </div>
                   <div className="personal-top-one review-form-text-area-fix">
                     <label>Description</label>
                     <div className="icon-row text-area-desgine">
-                      <textarea placeholder="Website Developer & Desginer" wrap="off" wrap="hard" rows="10" name="description" ></textarea>
+                      <textarea placeholder="Website Developer & Desginer" name="desc" wrap="off" wrap="hard" rows="10" value={commentInfo.desc} onChange={updateUserInput}></textarea>
                     </div>
                     <div className="word-count">
                       <p>0/500 Words</p>
@@ -89,14 +162,10 @@ const JobDetails = () => {
                   <div className="rating-holder">
                     <p>Rating:</p>
                     <ul>
-                      <li><i class="bi bi-star"></i></li>
-                      <li><i class="bi bi-star"></i></li>
-                      <li><i class="bi bi-star"></i></li>
-                      <li><i class="bi bi-star"></i></li>
-                      <li><i class="bi bi-star"></i></li>
+                      <ReactStars onChange={ratingChanged} count={5} size={20} isHalf={true} emptyIcon={<i class="bi bi-star"></i>} halfIcon={<i class="bi bi-star-half"></i>} filledIcon={<i class="bi bi-star-fill"></i>} activeColor="#00b074" color="#00b074" value={commentInfo.rating}/>
                     </ul>
                   </div>
-                  <button className="button-hover">Post Review</button>
+                  <button className="button-hover" type="submit">Post Review</button>
                   <div className="show-comment-button">
                     {!commentStatus ? <p onClick={(e) => setCommentStatus(true)}>Show Comment&nbsp; <i class="bi bi-chevron-down"></i></p> : <p onClick={(e) => setCommentStatus(false)}>Hide Comment&nbsp; <i class="bi bi-chevron-up"></i></p>}
                   </div>
@@ -104,54 +173,20 @@ const JobDetails = () => {
                 {commentStatus ? 
                 <div className="review-holder-content">
                   <ul>
-                    <li>
-                      <div className="profile-name">
-                        <i class="bi bi-person-fill"></i>
-                      </div>
-                      <div className="info-review-text">
-                        <h2>Aryan Bhalla</h2>
-                        <p>June 20, 2021</p>
-                        <div className="comment">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo perspiciatis illum! Quo adipisci voluptate optio. Sint, dicta? Ducimus ullam dolorum aliquid. Laborum consequatur nisi magnam aspernatur illo libero quis?</p>
+                    {listing.review && listing.review.map(review => (
+                      <li>
+                        <div className="profile-name">
+                          <i class="bi bi-person-fill"></i>
                         </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="profile-name">
-                        <i class="bi bi-person-fill"></i>
-                      </div>
-                      <div className="info-review-text">
-                        <h2>Aryan Bhalla</h2>
-                        <p>June 20, 2021</p>
-                        <div className="comment">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo perspiciatis illum! Quo adipisci voluptate optio. Sint, dicta? Ducimus ullam dolorum aliquid. Laborum consequatur nisi magnam aspernatur illo libero quis?</p>
+                        <div className="info-review-text">
+                          <h2>{review.name}</h2>
+                          <p>June 20, 2021</p>
+                          <div className="comment">
+                            <p>{review.desc}</p>
+                          </div>
                         </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="profile-name">
-                      <i class="bi bi-person-fill"></i>
-                      </div>
-                      <div className="info-review-text">
-                        <h2>Aryan Bhalla</h2>
-                        <p>June 20, 2021</p>
-                        <div className="comment">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo perspiciatis illum! Quo adipisci voluptate optio. Sint, dicta? Ducimus ullam dolorum aliquid. Laborum consequatur nisi magnam aspernatur illo libero quis?</p>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div className="profile-name">
-                      <i class="bi bi-person-fill"></i>
-                      </div>
-                      <div className="info-review-text">
-                        <h2>Aryan Bhalla</h2>
-                        <p>June 20, 2021</p>
-                        <div className="comment">
-                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo perspiciatis illum! Quo adipisci voluptate optio. Sint, dicta? Ducimus ullam dolorum aliquid. Laborum consequatur nisi magnam aspernatur illo libero quis?</p>
-                        </div>
-                      </div>
-                    </li>
+                      </li>
+                    ))}
                   </ul>
                 </div>: ""
                 }
@@ -202,6 +237,7 @@ const JobDetails = () => {
           </div>
         </div>
       </div>
+    </>}
     </div>
   )
 }
