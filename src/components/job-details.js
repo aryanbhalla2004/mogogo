@@ -7,7 +7,7 @@ import moment from 'moment';
 
 
 const JobDetails = () => {
-  const {masterId, listingId} = useParams();
+  const {listingId} = useParams();
   const [listing, setListing] = useState([]);
   const [commentStatus, setCommentStatus] = useState(false);
   const [ratingMaster, setRatingMaster] = useState();
@@ -21,7 +21,7 @@ const JobDetails = () => {
   });
 
   const fetchData = async() => {
-    firebase.firestore().collection('listings').doc(masterId).collection("post").doc(listingId).get()
+    firebase.firestore().collection('listings').doc(listingId).get()
     .then((docRef) =>  {
       setListing(docRef.data());
     });
@@ -53,7 +53,7 @@ const JobDetails = () => {
     if(commentInfo.name !== "" && commentInfo.email !== "" && commentInfo.desc !== "" && commentInfo.rating > 0) {
       e.preventDefault();
       listing.review.push(commentInfo);
-      await firebase.firestore().collection('listings').doc(masterId).collection("post").doc(listingId).set(listing);
+      await firebase.firestore().collection('listings').doc(listingId).set(listing);
       fetchData();
       setCommentInfo(prevInput => ({
         ...prevInput, desc: "", rating: 0
@@ -191,8 +191,8 @@ const JobDetails = () => {
                           <i class="bi bi-person-fill"></i>
                         </div>
                         <div className="info-review-text">
-                          <h2>{review.name}&nbsp;<ReactStars onChange={ratingChanged} count={5} size={16} isHalf={true} emptyIcon={<i class="bi bi-star"></i>} halfIcon={<i class="bi bi-star-half"></i>} filledIcon={<i class="bi bi-star-fill"></i>} activeColor="#00b074" color="#00b074" value={review.rating} edit={false}/></h2>
-                          <p>{moment(review.timeStamp).format("MMM DD YYYY")}</p>
+                          <h2>{review.name}&nbsp;</h2>
+                          <p className="stars-date-combine"><ReactStars onChange={ratingChanged} count={5} size={14} isHalf={true} emptyIcon={<i class="bi bi-star"></i>} halfIcon={<i class="bi bi-star-half"></i>} filledIcon={<i class="bi bi-star-fill"></i>} activeColor="#00b074" color="#00b074" value={review.rating} edit={false}/>&nbsp;{moment(review.timeStamp).format("MMM DD YYYY")}</p>
                           <div className="comment">
                             <p>{review.desc}</p>
                           </div>
@@ -207,7 +207,21 @@ const JobDetails = () => {
           </div>
           <div className="job-right-column">
             <ul>
-              <li></li>
+              <li className="overview-text-holder padding-fix">
+                <div className="overview-text-holder padding-fix">
+                  <h2>Send Direct Inquiry</h2>
+                </div>
+                <form className="direct-message-form">
+                  <div className="input-fields">
+                    <div className="icon-row">
+                      <i class="bi bi-envelope"></i>
+                      <input placeholder="Your Name" type="Text" name="email" value={commentInfo.email} onChange={updateUserInput} readOnly={commentValueReadonly}/>
+                    </div>   
+                  </div>
+                  <textarea placeholder="Your Message"></textarea>
+                  <button className="button-hover">Send&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></button>
+                </form>
+              </li>
               <li>
                 <div className="overview-text-holder padding-fix">
                   <h2>Information</h2>

@@ -145,10 +145,10 @@ const App = () => {
             <Route exact path="/">
               <Home></Home>
             </Route>
-            <Route exact path="/search-results">
+            <Route exact path="/search-results/:query/:location">
               <SearchResults setLocation={setLocation} setQuery={setQuery} location={location} query={query}/>
             </Route>
-            <Route exact path="/job-details/:masterId/:listingId">
+            <Route exact path="/job-details/:listingId">
               <JobDetails/>
             </Route>
             {/* <div className="copyright">

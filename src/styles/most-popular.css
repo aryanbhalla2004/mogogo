@@ -37,6 +37,7 @@
   background-color: rgba(0,176,116,.1);
   color: #00b074!important;
 }
+
 /* home pages block */
 .category-main-container {
   display: flex;
@@ -118,7 +119,6 @@
 .category-list-holder > li > p {
   color: #6b6e6f;
 }
-
 
 /* about section */
 .about-text-home {

@@ -29,11 +29,10 @@ const Dashboard = (props) => {
 
   const deleteListing = async () => {
     try {
-      await firebase.firestore().collection('listings').doc(uid).collection('post').doc(deleteId).delete();
+      await firebase.firestore().collection('listings').doc(deleteId).delete();
     } catch (e) {
       console.log(e);
     }
-
 
     setConfirmDelete(false);
   }
@@ -41,7 +40,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     getUser();
     const FetchInfo = async () => {
-      const cityRef = firebase.firestore().collection('listings').doc(uid).collection('post');
+      const cityRef = firebase.firestore().collection('listings').where("ownerId", "==", uid);
       cityRef.onSnapshot((querySnapShot) => {
         const items = [];
         querySnapShot.forEach((doc) => {
