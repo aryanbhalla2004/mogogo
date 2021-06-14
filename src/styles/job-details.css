@@ -1,3 +1,7 @@
+textarea {
+  outline: none;
+}
+
 .job-details-details-container {
   padding-top: 100px;
 }
@@ -323,7 +327,6 @@
   display: flex;
   align-items: center;
   font-weight: 500;
-  text-decoration: underline;
   color: #1d292e;
 }
 
@@ -371,27 +374,8 @@
   animation-fill-mode: forwards;
 }
 
-@keyframes showReview {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  } 
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 
-@keyframes hideReview {
-  from {
-    opacity: 1;
-  } 
-  to {
-    opacity: 0;
-  }
-}
-
-#one {
-  border: 1px solid;
-  width: 100px;
+.green-color {
+  color: #00b074;
+  font-weight: 400;
 }

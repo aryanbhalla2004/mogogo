@@ -16,7 +16,8 @@ const JobDetails = () => {
     name: '',
     email: '',
     desc: '',
-    rating: 0
+    rating: 0,
+    timeStamp: moment().format('MM-DD-YYY T')
   });
 
   const fetchData = async() => {
@@ -26,7 +27,7 @@ const JobDetails = () => {
     });
 
     if(auth.currentUser !== null) {
-      setCommentInfo({name: auth.currentUser.displayName, email: auth.currentUser.email});
+      setCommentInfo({name: auth.currentUser.displayName, email: auth.currentUser.email, timeStamp: moment().format("MM-DD-YYYY")});
       setCommentValueReadonly(true);
     }
   }
@@ -53,7 +54,10 @@ const JobDetails = () => {
       e.preventDefault();
       listing.review.push(commentInfo);
       await firebase.firestore().collection('listings').doc(masterId).collection("post").doc(listingId).set(listing);
-      fetchData()
+      fetchData();
+      setCommentInfo(prevInput => ({
+        ...prevInput, desc: "", rating: 0
+      }));
     }
   }
 
@@ -81,13 +85,19 @@ const JobDetails = () => {
     }
   }
 
+  const documentFormat = () => {
+    let text = listing && listing.description
+    text = text && text.toString().split("\n")
+    return text
+  }
+
   return (
     <div className="job-details-details-container">
       {listing && <>
       <div className="job-details-header">
         <div className="content-sizing job-details-flex-fix">
           <ul>
-            <p>Home > Job > {listing.category}</p>
+            <p>Home <i class="bi bi-chevron-right green-color"></i> Job <i class="bi bi-chevron-right green-color"></i> <span className="green-color">{listing.category}</span></p>
           </ul>
           <ul>
             <h2>{listing.category}</h2>
@@ -126,7 +136,9 @@ const JobDetails = () => {
                   <h2>Overview</h2>
                 </div>
                 <div className="overview-description">
-                  <p>{listing.description}</p>
+                  {documentFormat() && documentFormat().map(text => (
+                    <p>{text}</p>
+                  ))}
                 </div>
               </li>
               <li className="overview-text">
@@ -179,8 +191,8 @@ const JobDetails = () => {
                           <i class="bi bi-person-fill"></i>
                         </div>
                         <div className="info-review-text">
-                          <h2>{review.name}</h2>
-                          <p>June 20, 2021</p>
+                          <h2>{review.name}&nbsp;<ReactStars onChange={ratingChanged} count={5} size={16} isHalf={true} emptyIcon={<i class="bi bi-star"></i>} halfIcon={<i class="bi bi-star-half"></i>} filledIcon={<i class="bi bi-star-fill"></i>} activeColor="#00b074" color="#00b074" value={review.rating} edit={false}/></h2>
+                          <p>{moment(review.timeStamp).format("MMM DD YYYY")}</p>
                           <div className="comment">
                             <p>{review.desc}</p>
                           </div>
