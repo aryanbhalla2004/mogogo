@@ -31,6 +31,7 @@ const Post = (props) => {
     Image: '',
     ownerId: userId,
     posted_date: moment().format('MM-DD-YYYY'),
+    review: []
   });
 
   const processButton = (process) => {
@@ -66,7 +67,7 @@ const Post = (props) => {
       setEditable({one: false, two: false, three: false});
       setProcessStage({[location]: true});
       setBackButtonShow(false);
-      await firebase.firestore().collection("listings").doc(userId).collection("post").doc().set(listingType)
+      firebase.firestore().collection("listings").doc().set(listingType)
     } else {
       setProcessStage({[location]: true});
       setEditable(prevInput => ({

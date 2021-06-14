@@ -1313,3 +1313,8 @@ input{
 }
 
 .ldio-bh44xkw0e6g div { box-sizing: content-box; }
+
+.stars-date-combine {
+  display: flex;
+  align-items: center;
+}

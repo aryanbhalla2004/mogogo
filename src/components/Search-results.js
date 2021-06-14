@@ -2,28 +2,23 @@ import '../styles/search-result.css';
 import { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import {auth, firebase} from '../util/firebase';
+import { useParams } from 'react-router-dom';
 
 const SearchResults = (props) => {
-  //const [lastId, setLastId] = useState({});
+  const {query, location} = useParams();
+  const [lastId, setLastId] = useState({});
   const [jobList, setJobList] = useState([]);
   const [styleBlock, setStyleBlock] = useState(true);
 
   useEffect(() => {
-    firebase.firestore().collection('listings').get().then((querySnapshot) => {
+    let queryArray = query.split(' ');
+    firebase.firestore().collection('listings').where('titleArray', 'array-contains-any', queryArray).get().then((querySnapshot) => {
+      let items = []
       querySnapshot.forEach((mainBox) => {
-        const post = firebase.firestore().collection('listings').doc(mainBox.id).collection('post');
-        post.get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            let singleJob = doc.data();
-              if(singleJob.title.toLowerCase().includes(props.query)) {
-                setJobList(currentState => {
-                console.log(singleJob, currentState);
-                return [...currentState, singleJob];  
-              });
-            }
-          });
-        })
-      })
+        let info = mainBox.data();
+        items.push({...info, Product_id: mainBox.id});  
+      });
+      setJobList(items);
     });
   }, []);
 
@@ -102,7 +97,7 @@ const SearchResults = (props) => {
           <div className="search-input-holder">
             <div className="search-input search-input-result-page">
               <span className="material-icons">search</span>
-              <input placeholder="Job Title" value={props.query} onChange={(e) => props.setQuery(e.target.value)}/>  
+              <input placeholder="Job Title" value={props.query || query} onChange={(e) => props.setQuery(e.target.value)}/>  
             </div>
             <div className="line-from line-height-more"></div>
             <div className="location-select search-input-result-page">
@@ -142,27 +137,30 @@ const SearchResults = (props) => {
             <ul>
               {
                 styleBlock ? 
-                <li>
-                <div className="logo-holder">
-                  <img src="/12.jpeg" width="100%"/>
-                </div>
-                <div className="title-info">
-                  <p>Information Technology</p>
-                  <h2>Computer Repair and Technology</h2>
-                </div>
-                <div className="tags">
-                  <ul>
-                    <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
-                    <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
-                    <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
-                  </ul>
-                </div>
-                <p>We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.</p>
-                <div className="button-post">
-                  <Link className="button-hover">INQUIRY</Link>
-                  <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
-                </div>
-              </li> :
+                jobList.map(list => (
+                  <li>
+                    <div className="logo-holder">
+                      <img src="/12.jpeg" width="100%"/>
+                    </div>
+                    <div className="title-info">
+                      <p>{list.category}</p>
+                      <h2>{list.title}</h2>
+                    </div>
+                    <div className="tags">
+                      <ul>
+                        <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
+                        <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
+                        <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
+                      </ul>
+                    </div>
+                    <p>{list.quickDescription && list.quickDescription || 'We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.'}</p>
+                    <div className="button-post">
+                      <Link className="button-hover">INQUIRY</Link>
+                      <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
+                    </div>
+                  </li>
+                ))
+                 :
               <li className="list-style">
                 <div className="topbar-info">
                   <div className="left-side">
