@@ -8,24 +8,24 @@ const SearchResults = (props) => {
   const [jobList, setJobList] = useState([]);
   const [styleBlock, setStyleBlock] = useState(true);
 
-  // useEffect(() => {
-  //   firebase.firestore().collection('listings').get().then((querySnapshot) => {
-  //     querySnapshot.forEach((mainBox) => {
-  //       const post = firebase.firestore().collection('listings').doc(mainBox.id).collection('post');
-  //       post.get().then((querySnapshot) => {
-  //         querySnapshot.forEach((doc) => {
-  //           let singleJob = doc.data();
-  //             if(singleJob.title.toLowerCase().includes(props.query)) {
-  //               setJobList(currentState => {
-  //               console.log(singleJob, currentState);
-  //               return [...currentState, singleJob];  
-  //             });
-  //           }
-  //         });
-  //       })
-  //     })
-  //   });
-  // }, []);
+  useEffect(() => {
+    firebase.firestore().collection('listings').get().then((querySnapshot) => {
+      querySnapshot.forEach((mainBox) => {
+        const post = firebase.firestore().collection('listings').doc(mainBox.id).collection('post');
+        post.get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            let singleJob = doc.data();
+              if(singleJob.title.toLowerCase().includes(props.query)) {
+                setJobList(currentState => {
+                console.log(singleJob, currentState);
+                return [...currentState, singleJob];  
+              });
+            }
+          });
+        })
+      })
+    });
+  }, []);
 
   const searchResults = (e) => {
     setJobList([])

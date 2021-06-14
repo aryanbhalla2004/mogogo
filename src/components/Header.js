@@ -4,7 +4,7 @@ import '../styles/header.css';
 
 const Header = (props) => {
   const [accountMenu, setAccountMenu] = useState(false);
-  const defaultPagesPath = ['/', "/faq", "/support", "/search-results"];
+  const defaultPagesPath = ['/', "/faq", "/support", "/search-results", "/job-details/:masterID/:listingID"];
   const userPagesPath = ["/user/login", "/user/signup", "/user/forgot-password", "/user/create-new-password", "/user/activate-account", "/user/confirm-account-activation"];
   const [responsiveShow, setResponsiveShow] = useState({
     show: true,
