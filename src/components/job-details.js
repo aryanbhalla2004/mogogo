@@ -1,9 +1,9 @@
 import '../styles/job-details.css';
 import macaddress from 'macaddress';
-
+import { useState } from 'react';
 
 const JobDetails = () => {
-
+  const [commentStatus, setCommentStatus] = useState(false);
   return (
     <div className="job-details-details-container">
       <div className="job-details-header">
@@ -96,11 +96,65 @@ const JobDetails = () => {
                       <li><i class="bi bi-star"></i></li>
                     </ul>
                   </div>
-                  <button>Post Review</button>
+                  <button className="button-hover">Post Review</button>
+                  <div className="show-comment-button">
+                    {!commentStatus ? <p onClick={(e) => setCommentStatus(true)}>Show Comment&nbsp; <i class="bi bi-chevron-down"></i></p> : <p onClick={(e) => setCommentStatus(false)}>Hide Comment&nbsp; <i class="bi bi-chevron-up"></i></p>}
+                  </div>
                 </form>
+                {commentStatus ? 
                 <div className="review-holder-content">
-
-                </div>
+                  <ul>
+                    <li>
+                      <div className="profile-name">
+                        <i class="bi bi-person-fill"></i>
+                      </div>
+                      <div className="info-review-text">
+                        <h2>Aryan Bhalla</h2>
+                        <p>June 20, 2021</p>
+                        <div className="comment">
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo perspiciatis illum! Quo adipisci voluptate optio. Sint, dicta? Ducimus ullam dolorum aliquid. Laborum consequatur nisi magnam aspernatur illo libero quis?</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="profile-name">
+                        <i class="bi bi-person-fill"></i>
+                      </div>
+                      <div className="info-review-text">
+                        <h2>Aryan Bhalla</h2>
+                        <p>June 20, 2021</p>
+                        <div className="comment">
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo perspiciatis illum! Quo adipisci voluptate optio. Sint, dicta? Ducimus ullam dolorum aliquid. Laborum consequatur nisi magnam aspernatur illo libero quis?</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="profile-name">
+                      <i class="bi bi-person-fill"></i>
+                      </div>
+                      <div className="info-review-text">
+                        <h2>Aryan Bhalla</h2>
+                        <p>June 20, 2021</p>
+                        <div className="comment">
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo perspiciatis illum! Quo adipisci voluptate optio. Sint, dicta? Ducimus ullam dolorum aliquid. Laborum consequatur nisi magnam aspernatur illo libero quis?</p>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="profile-name">
+                      <i class="bi bi-person-fill"></i>
+                      </div>
+                      <div className="info-review-text">
+                        <h2>Aryan Bhalla</h2>
+                        <p>June 20, 2021</p>
+                        <div className="comment">
+                          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit illo perspiciatis illum! Quo adipisci voluptate optio. Sint, dicta? Ducimus ullam dolorum aliquid. Laborum consequatur nisi magnam aspernatur illo libero quis?</p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>: ""
+                }
               </li>
             </ul>
           </div>

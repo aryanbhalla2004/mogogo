@@ -273,4 +273,121 @@
   padding: 15px 20px;
   margin: 10px 5px;
   cursor: pointer;
+  transition: .3s;
+  border-radius: 5px;
+}
+
+.review-holder-content {
+  padding: 20px;
+}
+
+.review-holder-content > ul {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+}
+
+.review-holder-content > ul > li {
+  border: 1px solid #cccccc;
+  border-radius: 2px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-name {
+  max-width: 130px;
+  width: 100%;
+  background-color: #00b074;
+  padding: 30px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-name > i{
+  color: #f5f5f5;
+  font-size: 60px;
+}
+
+.info-review-text {
+  padding: 15px 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.info-review-text > h2 {
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  text-decoration: underline;
+  color: #1d292e;
+}
+
+.info-review-text  > p {
+  color: #677782;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.comment > p {
+  color: #677782;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2rem;
+  letter-spacing: .04rem;
+  padding: 10px 0;
+}
+
+.show-comment-button {
+  color: #1d292e;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.show-comment-button:hover {
+  color: #00b074;
+}
+
+.animation-show {
+  animation-name: showReview;
+  animation-duration: .5s;
+  transition: .3s;
+  animation-fill-mode: forwards;
+}
+
+.animation-hide {
+  animation-name: hideReview;
+  animation-duration: .5s;
+  transition: .3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes showReview {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  } 
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes hideReview {
+  from {
+    opacity: 1;
+  } 
+  to {
+    opacity: 0;
+  }
 }
