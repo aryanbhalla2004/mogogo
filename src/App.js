@@ -145,7 +145,7 @@ const App = () => {
             <Route exact path="/">
               <Home></Home>
             </Route>
-            <Route exact path="/search-results/:query/:location">
+            <Route exact path="/search-results">
               <SearchResults setLocation={setLocation} setQuery={setQuery} location={location} query={query}/>
             </Route>
             <Route exact path="/job-details/:listingId">

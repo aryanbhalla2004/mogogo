@@ -22,7 +22,10 @@ const SearchBox = (props) => {
       location: props.location
     });
     if(props.query !== "") {
-      history.push('/search-results');
+      history.push({
+        pathname: '/search-results',
+        search: `query=${props.query}&location=${props.location}`
+      });
     }
   }
 

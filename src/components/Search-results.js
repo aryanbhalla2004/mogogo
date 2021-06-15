@@ -2,17 +2,20 @@ import '../styles/search-result.css';
 import { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import {auth, firebase} from '../util/firebase';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const SearchResults = (props) => {
-  const {query, location} = useParams();
+  const location = useLocation();
+  const urlSearch = new URLSearchParams(location.search);
+  const query = urlSearch.get('query');
   const [lastId, setLastId] = useState({});
   const [jobList, setJobList] = useState([]);
   const [styleBlock, setStyleBlock] = useState(true);
 
   useEffect(() => {
-    let queryArray = query.split(' ');
-    firebase.firestore().collection('listings').where('titleArray', 'array-contains-any', queryArray).get().then((querySnapshot) => {
+    let queryArray = query.toString().split(' ');
+    console.log(queryArray)
+    firebase.firestore().collection('listings').where('titleArray', 'array-contains-any', queryArray  ).get().then((querySnapshot) => {
       let items = []
       querySnapshot.forEach((mainBox) => {
         let info = mainBox.data();
@@ -155,7 +158,7 @@ const SearchResults = (props) => {
                     </div>
                     <p>{list.quickDescription && list.quickDescription || 'We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.'}</p>
                     <div className="button-post">
-                      <Link className="button-hover">INQUIRY</Link>
+                      <Link className="button-hover" to={`/job-details/${list.Product_id}`}>INQUIRY</Link>
                       <a><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</a>
                     </div>
                   </li>
