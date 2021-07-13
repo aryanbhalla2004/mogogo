@@ -44,6 +44,7 @@
   justify-content: center;
   align-items: center;
   padding: 70px 0;
+  background: #fff;
 }
 
 .category-main-content > ul:first-child {
@@ -125,6 +126,7 @@
   display: flex;
   justify-content: center;
   padding: 50px 0 100px 0;
+  background: #fff;
 }
 
 .about-text-home-content {

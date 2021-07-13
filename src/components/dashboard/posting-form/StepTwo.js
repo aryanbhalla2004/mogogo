@@ -55,14 +55,25 @@ const FormTwo = (props) => {
   }, [props.listingType.address]);
 
 
-  const locationSelected = (pos, content) => {
-    const info = {
+  const locationSelected = async(pos, content) => {
+    const address = {
       target: {
         value: `${content}`,
         name: 'address'
       }
     }
-    props.setInputField(info);
+
+    const response = await fetch(`http://api.positionstack.com/v1/reverse?access_key=c968fdc13c4c7ad94b64bfc708f5fa16&query=${pos[1]},${pos[0]}`);
+    const JSON = await response.json();
+    const city = {
+      target: {
+        value: JSON.data[0],
+        name: 'city'
+      }
+    }
+
+    props.setInputField(address);
+    props.setInputField(city);
     setShowAddressList(false);
   }
   

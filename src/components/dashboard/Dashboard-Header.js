@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 
 const Header = (props) => {
   const [userDrop, setUserDrop] = useState(false);
-
+  console.log(props.user);
   return (
     <div className="header-dashboard">
       <ul className="logo-holder">
@@ -14,7 +14,7 @@ const Header = (props) => {
         <div className="line"></div>
         <li className="user-header-main-button bell"><Link><i className="far fa-bell"></i></Link></li>
         <li className="hoverEffect-size-expand" onMouseEnter={(e) => setUserDrop(true)} onMouseLeave={(e) => setUserDrop(false)}>
-          <Link><span className="name-user-logo">A</span>&nbsp;Aryan Bhalla&nbsp;<i class="fas fa-chevron-down aero-beside-header"></i></Link>
+          <Link><span className="name-user-logo">{props.user && props.user.Name.toString()[0]}</span>&nbsp;{props.user && props.user.Name}&nbsp;<i class="fas fa-chevron-down aero-beside-header"></i></Link>
           <div className={userDrop ? "dropdown-menu-dashboard-header" : "show-block"} >
             <ul>
               <li><Link to="/dashboard/inquires" onClick={(e) => setUserDrop(false)}>Clients Inquires</Link></li>

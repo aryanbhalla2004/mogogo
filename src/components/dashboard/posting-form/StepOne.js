@@ -54,7 +54,7 @@ const FormOne = (props) => {
 
   const setTagOnState = (e) => {
     setError('')
-    setTag(e.target.value);
+    setTag((e.target.value).toLowerCase());
   }
 
   return (

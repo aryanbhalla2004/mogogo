@@ -658,6 +658,10 @@ input{
   background-color: #ececec;
 }
 
+.icon-row > p {
+  padding: 0px 15px;
+}
+
 .icon-row > select {
   padding: 13px;
   border: none;
@@ -1317,4 +1321,50 @@ input{
 .stars-date-combine {
   display: flex;
   align-items: center;
+}
+
+.qualification {
+  margin-top: 20px;
+  color: #000000;
+}
+
+.qualification > p {
+  color: #8f8f8f
+}
+
+.checkbox-qualification {
+  border: 1px solid #e2e2e2;
+  padding: 8px 10px !important;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.checkbox-qualification {
+  display: flex;
+  padding: 0;
+}
+
+.checkbox-qualification > ul{
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  padding: 0;
+}
+
+.checkbox-qualification > ul > li {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  padding-right: 20px;
+}
+
+.checkbox-qualification > ul > li > input {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.checkbox-qualification > ul > li > label {
+  color: #505050;
+  font-weight: 500;
+  cursor: pointer;
 }

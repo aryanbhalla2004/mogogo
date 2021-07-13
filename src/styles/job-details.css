@@ -408,3 +408,56 @@ textarea {
   justify-content: center;
   align-items: center;
 }
+
+.posting-review {
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.posting-review > h2 {
+  padding-bottom: 8px;
+  color: #1d292e;
+}
+
+.posting-review > p {
+  color: #677782;
+}
+
+.posting-review > a {
+  background-color: #00b074;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
+  margin: 15px 0;
+}
+
+
+.overview-text-holder > p{
+  color: #677782;
+  text-align: center;
+  font-size: 15px;
+}
+
+.button-holder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.button-holder > a {
+  border: 1px solid;
+  background-color: #00b074;
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  transition: .3s;
+  width: 100%;
+  border-radius: 5px;
+}

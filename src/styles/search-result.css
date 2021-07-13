@@ -363,3 +363,22 @@
   max-width: 350px;
   width: 100%;
 }
+
+.no-results {
+  padding: 50px 20px;
+}
+
+.no-results {
+  margin-top: -15px;
+  text-align: center;
+  color: #222222;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.no-results > i {
+  color: #00b074;
+  font-size: 100px !important;
+}

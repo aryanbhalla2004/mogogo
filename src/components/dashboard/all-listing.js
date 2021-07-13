@@ -35,7 +35,7 @@ const Listings = (props) => {
               <th className="title-holder">Title</th>
               <th className="expire-holder">Expiration</th>
               <th className="type-holder">Type</th>
-              <th className="replies-holder">Replies</th>
+              <th className="replies-holder">Reviews</th>
               <th className="view-holder">Views</th>
               <th className="modify-holder">Modify</th>
             </tr>
@@ -58,7 +58,7 @@ const Listings = (props) => {
                     <p>Posted {moment(list.posted_date).format("MMM D")}</p>
                 </td>
                 <td className="type-holder">{list.type}</td>
-                <td className="replies-holder">0</td>
+                <td className="replies-holder">{list.review.length}</td>
                 <td className="view-holder">0</td>
                 <th className="modify-holder">
                   <div className="modify-button">

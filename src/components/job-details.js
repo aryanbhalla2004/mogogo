@@ -2,7 +2,7 @@ import '../styles/job-details.css';
 import { useState, useEffect} from 'react';
 import ReactStars from "react-rating-stars-component";
 import {auth, firebase} from '../util/firebase';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import moment from 'moment';
 
 
@@ -54,10 +54,11 @@ const JobDetails = () => {
       e.preventDefault();
       listing.review.push(commentInfo);
       await firebase.firestore().collection('listings').doc(listingId).set(listing);
-      fetchData();
       setCommentInfo(prevInput => ({
-        ...prevInput, desc: "", rating: 0
+        ...prevInput, desc: "", rating: 0  
       }));
+      fetchData();
+      console.log(commentInfo.rating);
     }
   }
 
@@ -123,7 +124,7 @@ const JobDetails = () => {
                 <div className="bottom-info-job">
                   <ul>
                     <li><i class="bi bi-telephone"></i>&nbsp;{listing.number}</li>
-                    <li><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
+                    <li><i class="bi bi-geo-alt"></i>&nbsp;{listing.city && listing.city.locality}, {listing.city && listing.city.region_code}</li>
                     <li><i class="bi bi-envelope"></i>&nbsp;{listing.email}</li>
                     <li><i class="bi bi-signpost"></i>&nbsp;{moment(listing.posted_date).format("MMM D YYYY")}</li>
                     <li><i class="bi bi-building"></i>&nbsp;{listing.type}</li>
@@ -145,7 +146,9 @@ const JobDetails = () => {
                 <div className="overview-text-holder">
                   <h2>Write a review</h2>
                 </div>
+                
                 <form onSubmit={addComment}> 
+                {commentValueReadonly ? <>
                   <div className="flex-input-2 review-form">
                     <div className="input-fields half-width">
                       <label>Name</label>
@@ -165,7 +168,7 @@ const JobDetails = () => {
                   <div className="personal-top-one review-form-text-area-fix">
                     <label>Description</label>
                     <div className="icon-row text-area-desgine">
-                      <textarea placeholder="Website Developer & Desginer" name="desc" wrap="off" wrap="hard" rows="10" value={commentInfo.desc} onChange={updateUserInput}></textarea>
+                      <textarea placeholder="Comments" name="desc" wrap="off" wrap="hard" rows="10" value={commentInfo.desc} onChange={updateUserInput}></textarea>
                     </div>
                     <div className="word-count">
                       <p>0/500 Words</p>
@@ -178,12 +181,21 @@ const JobDetails = () => {
                     </ul>
                   </div>
                   <button className="button-hover" type="submit">Post Review</button>
+                  </>
+                  : <div className="posting-review">
+                  <h2>Login to Posting Review</h2>
+                  <p>To post review for the following listing, begin with login if you have an account or sign up if you don't.</p>
+                  <Link to="/user/login">Login</Link>
+                </div>
+                }
                   <div className="show-comment-button">
                     {!commentStatus ? <p onClick={(e) => setCommentStatus(true)}>Show Comment&nbsp; <i class="bi bi-chevron-down"></i></p> : <p onClick={(e) => setCommentStatus(false)}>Hide Comment&nbsp; <i class="bi bi-chevron-up"></i></p>}
                   </div>
-                </form>
+                </form> 
+                
                 {commentStatus ? 
                 <div className="review-holder-content">
+                  {listing.review.length > 0 ? 
                   <ul>
                     {listing.review && listing.review.map(review => (
                       <li>
@@ -199,7 +211,12 @@ const JobDetails = () => {
                         </div>
                       </li>
                     ))}
-                  </ul>
+                  </ul> : 
+                  <div className="no-review">
+                    <h3>No reviews found</h3>
+                    <p>Become the first person to post a review on this listing</p>
+                  </div>
+                    }
                 </div>: ""
                 }
               </li>
@@ -211,6 +228,7 @@ const JobDetails = () => {
                 <div className="overview-text-holder padding-fix">
                   <h2>Send Direct Inquiry</h2>
                 </div>
+                {commentValueReadonly ?
                 <form className="direct-message-form">
                   <div className="input-fields">
                     <div className="icon-row">
@@ -220,7 +238,14 @@ const JobDetails = () => {
                   </div>
                   <textarea placeholder="Your Message"></textarea>
                   <button className="button-hover">Send&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-right"></i></button>
-                </form>
+                </form> : 
+                <>
+                  <p>Private inquires can be only sent, if you have a account with <span className="green-color">Mogogo</span>. Click on the login button and start interacting with Mogogo users.</p>
+                  <div className="button-holder">
+                    <Link className="button-hover" to="/user/login">Login</Link>
+                  </div>
+                </>
+                }
               </li>
               <li>
                 <div className="overview-text-holder padding-fix">
@@ -232,14 +257,14 @@ const JobDetails = () => {
                       <i class="fas fa-graduation-cap"></i>
                       <div className='information-text'>
                         <h3>Experince</h3>
-                        <p>2 Years</p>
+                        <p>{listing.experience} {listing.experience > 1 ? "Years" : "Year"}</p>
                       </div>
                     </li>
                     <li>
                       <i class="fas fa-university"></i>
                       <div className="information-text">
                         <h3>Qualification</h3>
-                        <p>Bachelor Degree, Master’s Degree, Doctorate Degree</p>
+                        <p>{listing.qualification && listing.qualification.toString()}</p>
                       </div>
                     </li>
                   </ul>

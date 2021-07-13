@@ -1,51 +1,62 @@
 import '../styles/search-result.css';
 import { useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {auth, firebase} from '../util/firebase';
 import { useLocation } from 'react-router-dom';
 
 const SearchResults = (props) => {
-  const location = useLocation();
+  const history = useHistory();
+  const location = useLocation(); 
   const urlSearch = new URLSearchParams(location.search);
   const query = urlSearch.get('query');
-  const [lastId, setLastId] = useState({});
   const [jobList, setJobList] = useState([]);
   const [styleBlock, setStyleBlock] = useState(true);
-
+  const [jobTitle, setJobTitle] = useState('');
+  const [searchAgain, setSearchAgain] = useState(false);
+  
   useEffect(() => {
+    setJobTitle(query);
     let queryArray = query.toString().split(' ');
-    console.log(queryArray)
-    firebase.firestore().collection('listings').where('titleArray', 'array-contains-any', queryArray  ).get().then((querySnapshot) => {
+    firebase.firestore().collection('listings').where('tags', 'array-contains-any', queryArray).get().then((querySnapshot) => {
       let items = []
       querySnapshot.forEach((mainBox) => {
         let info = mainBox.data();
         items.push({...info, Product_id: mainBox.id});  
-      });
+      }); 
+      console.log(items);
       setJobList(items);
     });
-  }, []);
+  }, [searchAgain]);
 
   const searchResults = (e) => {
     setJobList([])
     e.preventDefault();
-    firebase.firestore().collection('listings').get().then((querySnapshot) => {
-      querySnapshot.forEach((mainBox) => {
-        const post = firebase.firestore().collection('listings').doc(mainBox.id).collection('post');
-        post.get().then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            let singleJob = doc.data();
-              if(singleJob.title.toLowerCase().includes(props.query)) {
-                setJobList(currentState => {
-                console.log(singleJob, currentState);
-                return [...currentState, singleJob];  
-              });
-            }
-          });
-        })
-      })
+    // firebase.firestore().collection('listings').get().then((querySnapshot) => {
+    //   querySnapshot.forEach((mainBox) => {
+    //     const post = firebase.firestore().collection('listings').doc(mainBox.id).collection('post');
+    //     post.get().then((querySnapshot) => {
+    //       querySnapshot.forEach((doc) => {
+    //         let singleJob = doc.data();
+    //           if(singleJob.title.toLowerCase().includes(props.query)) {
+    //             setJobList(currentState => {
+    //             console.log(singleJob, currentState);
+    //             return [...currentState, singleJob];  
+    //           });
+    //         }
+    //       });
+    //     })
+    //   })
+    // });
+    history.push({
+      pathname: '/search-results',
+      search: `query=${jobTitle}&location=${props.location}`
     });
+    setSearchAgain(!searchAgain);
   }
 
+  const changeQuery = (e) => {
+    setJobTitle(e.target.value);
+  }
 
   return (
     <div className="results-page-holder">
@@ -100,7 +111,7 @@ const SearchResults = (props) => {
           <div className="search-input-holder">
             <div className="search-input search-input-result-page">
               <span className="material-icons">search</span>
-              <input placeholder="Job Title" value={props.query || query} onChange={(e) => props.setQuery(e.target.value)}/>  
+              <input placeholder="Job Title" value={jobTitle} onChange={changeQuery}/>  
             </div>
             <div className="line-from line-height-more"></div>
             <div className="location-select search-input-result-page">
@@ -131,15 +142,15 @@ const SearchResults = (props) => {
           </div>
           <div className="results">
             <div className="top-info-about-result">
-              <p><span className="total-result">120</span> result for <span className="search-name">computer repair</span></p>
+              <p><span className="total-result">{jobList && jobList.length}</span> result for <span className="search-name">{query}</span></p>
               <div>
                 <i className={styleBlock ? "fas fa-th-large active-style" : "fas fa-th-large"} onClick={(e) => setStyleBlock(true)}></i>
                 <i className={!styleBlock ? "fas fa-list active-style": 'fas fa-list'} onClick={(e) => setStyleBlock(false)}></i>
               </div>
             </div>
+            {jobList && jobList.length > 0 ? 
             <ul>
-              {
-                styleBlock ? 
+              { styleBlock ? 
                 jobList.map(list => (
                   <li>
                     <div className="logo-holder">
@@ -151,9 +162,9 @@ const SearchResults = (props) => {
                     </div>
                     <div className="tags">
                       <ul>
-                        <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
-                        <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
-                        <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
+                        <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;{list.city && list.city.locality}</li>
+                        <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;{list.type && list.type}</li>
+                        
                       </ul>
                     </div>
                     <p>{list.quickDescription && list.quickDescription || 'We are looking for Enrollment Advisors who are looking to take 30-35 appointments per week. All leads are pre-scheduled.'}</p>
@@ -185,35 +196,15 @@ const SearchResults = (props) => {
                     <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
                   </ul>
                 </div>
-              </li> &&
-              <li className="list-style">
-              <div className="topbar-info">
-                <div className="left-side">
-                  <img src="/12.jpeg" width="100px"/>
-                  <ul>
-                    <h2>Computer Repair and Technology</h2>
-                    <p>Information Technology</p>
-                  </ul>
-                </div>
-                <div className="button-post listing-buttons">
-                  <Link className="button-hover">INQUIRY</Link>
-                  <Link><i class="bi bi-bookmark"></i>&nbsp;SAVE IT</Link>
-                </div>
-              </div>
-              <div className="tags listing-tags">
-                <ul>
-                  <li className="location"><i class="bi bi-geo-alt"></i>&nbsp;Winnipeg</li>
-                  <li className="work-info"><i class="fas fa-briefcase"></i>&nbsp;Full-Time</li>
-                  <li className="cost"><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i><i class="fas fa-dollar-sign"></i></li>
-                </ul>
-              </div>
-            </li>
+              </li>
               }
-              
-            </ul>
-            {/* {jobList && jobList.map(list => (
-              <h1>{list.title}</h1>
-            ))} */}
+            </ul> : 
+            <div class="no-results">
+              <i class="bi bi-cone-striped"></i>
+              <h1>No Results Found</h1>
+              <p>There are no listing available that match your search</p>
+            </div>
+            }
           </div>
         </div>
       </div>

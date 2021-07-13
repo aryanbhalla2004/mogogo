@@ -26,12 +26,18 @@ const Post = (props) => {
     email: [props.user && props.user.Email],
     extra_note: '',
     address: '',
-    website: '',
-    youTube: '',
+    facebook: '',
+    instagram: '',
+    twitter: '',
+    indeed: '',
     Image: '',
     ownerId: userId,
     posted_date: moment().format('MM-DD-YYYY'),
-    review: []
+    review: [],
+    city: '',
+    experience: 0,
+    qualification: [],
+    titleArray: []
   });
 
   const processButton = (process) => {
@@ -62,11 +68,32 @@ const Post = (props) => {
     }));
   }
 
+  const setQualification = (e, value) => {
+    let checkExistent = listingType.qualification.find(qualification => qualification === value);
+    if(e.target.checked) {
+      if(checkExistent === undefined) {
+        setListingType(prevInput => ({
+          ...prevInput, qualification: [...listingType.qualification, value]
+        }));
+      }
+    } else {
+      if(checkExistent !== undefined) {
+        let filterList = listingType.qualification.filter(qualification => qualification !== value)
+        setListingType(prevInput => ({
+          ...prevInput, qualification: [...filterList]
+        }));
+      }
+    }
+  }
+
   const continueButton = async (location) => {
     if(location === "four") {
       setEditable({one: false, two: false, three: false});
       setProcessStage({[location]: true});
       setBackButtonShow(false);
+      setListingType(prevInput => ({
+        ...prevInput, titleArray: listingType.title.split(' ')
+      }));
       firebase.firestore().collection("listings").doc().set(listingType)
     } else {
       setProcessStage({[location]: true});
@@ -94,7 +121,7 @@ const Post = (props) => {
           <div className="form-right-side loading-In-Animation">
             {processStage.one ? <FormOne setListingType={setListingType} setInputField={setInputField} listingType={listingType} continueButton={continueButton}/> : false}
             {processStage.two ? <FormTwo setInputField={setInputField} listingType={listingType} user={props.user} continueButton={continueButton}/> : false}
-            {processStage.three ? <FormThree continueButton={continueButton} setInputField={setInputField} listingType={listingType} /> : false}
+            {processStage.three ? <FormThree continueButton={continueButton} setInputField={setInputField} listingType={listingType} setQualification={setQualification} /> : false}
             {processStage.four ? <LastStep/> : false}
           </div>
         </> : 
